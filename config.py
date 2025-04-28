@@ -49,4 +49,4 @@ if __name__ == '__main__':
     # print(read_from_db("select * from project.users;", database_config))
     print(read_from_db(f"select username, password from project.users where username = 'admin2'"))
     print(read_from_db("select * from project.authors where full_name = 'John Doe'"))
-
+    print(read_from_db("select full_name from project.authors"))
