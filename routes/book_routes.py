@@ -152,13 +152,13 @@ def borrow_book():
 @app.route("/pending_books")
 def pending_books():
     query = """
-        select b.title, b.description, b.author_id, l.return_date
+        select b.title, b.description, a.full_name as author_name, l.return_date
         from project.loans l
         join project.books b on b.book_id = l.book_id
+        join project.authors a on a.author_id = b.author_id
         where l.return_date > now()
-        order by l.return_date asc
+        order by l.return_date ASC
     """
-
     borrowings = read_from_db(query)
 
     return render_template("pending_books.html", borrowings=borrowings)
@@ -171,15 +171,14 @@ def return_book():
         loan_id = request.form.get("loan_id")
         if loan_id:
             query = """
-                    update project.loans
-                    set return_date = now()
-                    where loan_id = %s AND user_id = %s
-                """
+                    delete from project.loans
+                    where loan_id = %s and user_id = %s
+                    """
             write_to_db(query, params=(loan_id, user_id))
         return redirect(url_for('return_book'))
 
     query = """
-        select b.title, a.full_name AS author_name, l.loan_id
+        select b.title, a.full_name as author_name, l.loan_id
         from project.loans l
         join project.books b on b.book_id = l.book_id
         join project.authors a on b.author_id = a.author_id
