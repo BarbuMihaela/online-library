@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pending Borrowings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/pending_borrowings.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Pending Borrowings</h1>
+        <a href="{{ url_for('web_home') }}">
+            <button class="admin-btn">Return to Admin Page</button>
+        </a>
+    </header>
+
+    <main>
+        {% if borrowings %}
+            <table class="borrowings-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Book</th>
+                        <th>Loan Date</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in borrowings %}
+                    <tr>
+                        <td>{{ b.full_name }}</td>
+                        <td>{{ b.title }}</td>
+                        <td>{{ b.loan_date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ b.return_date.strftime('%Y-%m-%d') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No pending borrowings at the moment.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
