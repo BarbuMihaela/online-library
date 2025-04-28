@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
 from flask_smorest import abort
-from config import read_from_db, database_config
+from config import read_from_db, database_config, write_to_db
 from flask_restful import abort
 import psycopg2
 from datetime import datetime, timedelta
@@ -149,3 +149,42 @@ def borrow_book():
     return render_template("borrow_book.html", books=books)
 
 
+@app.route("/pending_books")
+def pending_books():
+    query = """
+        select b.title, b.description, b.author_id, l.return_date
+        from project.loans l
+        join project.books b on b.book_id = l.book_id
+        where l.return_date > now()
+        order by l.return_date asc
+    """
+
+    borrowings = read_from_db(query)
+
+    return render_template("pending_books.html", borrowings=borrowings)
+
+
+@app.route("/return_book", methods=["GET", "POST"])
+def return_book():
+    user_id = session['user_id']
+    if request.method == "POST":
+        loan_id = request.form.get("loan_id")
+        if loan_id:
+            query = """
+                    update project.loans
+                    set return_date = now()
+                    where loan_id = %s AND user_id = %s
+                """
+            write_to_db(query, params=(loan_id, user_id))
+        return redirect(url_for('return_book'))
+
+    query = """
+        select b.title, a.full_name AS author_name, l.loan_id
+        from project.loans l
+        join project.books b on b.book_id = l.book_id
+        join project.authors a on b.author_id = a.author_id
+        where l.user_id = %s
+        order by l.loan_date asc
+    """
+    borrowings = read_from_db(query, params=(user_id,))
+    return render_template("return_book.html", borrowings=borrowings)

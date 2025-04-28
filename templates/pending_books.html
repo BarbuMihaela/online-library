@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/pending_books.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Pending Books</h1>
+        <a href="{{ url_for('web_home_users') }}">
+            <button class="btn">Return to User Page</button>
+        </a>
+    </header>
+
+    <div class="pending-books-container">
+        {% if borrowings %}
+            <table class="books-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Author</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in borrowings %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.description }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.return_date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You have no pending books.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

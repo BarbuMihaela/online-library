@@ -5,7 +5,7 @@
         body: JSON.stringify({ book_id : bookId}) })
             .then(response => {
                 if (response.ok) {
-                    alert("in cos.");
+                    alert("The book has been successfully added to your cart");
                     document.getElementById(`book_id_${bookId}`).remove();
                 } else {
                     alert("Error borrow this book.");

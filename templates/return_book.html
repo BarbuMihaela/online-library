@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/return_book.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Your Borrowed Books</h1>
+    </header>
+
+    <div class="top-button">
+        <a href="{{ url_for('web_home_users') }}">
+            <button type="button">Return to User Page</button>
+        </a>
+    </div>
+
+    {% if borrowings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for b in borrowings %}
+                <tr>
+                    <td>{{ b.title }}</td>
+                    <td>{{ b.author_name }}</td>
+                    <td>
+                        <form action="{{ url_for('return_book') }}" method="post">
+                            <input type="hidden" name="loan_id" value="{{ b.loan_id }}">
+                            <button type="submit">Return</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-books">You have no borrowed books to return.</p>
+    {% endif %}
+</body>
+</html>

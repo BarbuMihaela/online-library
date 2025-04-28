@@ -14,11 +14,11 @@ config = read_config()
 database_config = config['database_config']
 database_config['password'] = os.environ['postgres']
 
-def read_from_db(query: str,db_conf: dict = database_config) -> list:
+def read_from_db(query: str,db_conf: dict = database_config, params = ()) -> list:
     try:
         with ps.connect(**db_conf) as conn:
             with conn.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, params)
                 response = cursor.fetchall()
                 columns = [item.name for item in cursor.description]
                 new_data = []
@@ -30,6 +30,15 @@ def read_from_db(query: str,db_conf: dict = database_config) -> list:
         return [f"error: message {e}"]
 
 
+
+def write_to_db(query: str, db_conf: dict = database_config, params=()) -> None:
+    try:
+        with ps.connect(**db_conf) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute(query, params)
+                conn.commit()
+    except Exception as e:
+        print(f"Failed to write data: {e}")
 
 
 
