@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #c0fdfb, #a0eec0);
+    margin: 0;
+    padding: 0;
+    color: #003049;
+}
+
+header {
+    background-color: #5cc1b3;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.admin-btn {
+    background-color: #0177a8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.admin-btn:hover {
+    background-color: #015e84;
+}
+
+main {
+    padding: 30px;
+    text-align: center;
+}
+
+.borrowings-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #eafff5;
+}
+
+.borrowings-table th,
+.borrowings-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 1em;
+}
+
+.borrowings-table th {
+    background-color: #61c0bf;
+    color: white;
+}
+
+.borrowings-table tr:nth-child(even) {
+    background-color: #d1f5e0;
+}

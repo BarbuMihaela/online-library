@@ -77,3 +77,14 @@ def add_member():
 
     return render_template("add_member.html")
 
+@app.route("/pending_borrowings")
+def pending_borrowings():
+    query = """
+        select u.full_name, b.title, l.loan_date, l.return_date
+        from project.loans l
+        join project.books b on b.book_id = l.book_id
+        join project.users u on u.user_id = l.user_id
+        order by l.return_date asc
+    """
+    borrowings = read_from_db(query)
+    return render_template("pending_borrowings.html", borrowings=borrowings)

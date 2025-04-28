@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Book</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/barrow_book.css') }}">
+    <title>Borrow Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/borrow_book.css') }}">
 </head>
 <body>
     <header>
-        <h1>Remove Book</h1>
+        <h1>Borrow Book</h1>
         <a href="{{ url_for('web_home_users') }}">
             <button class="admin-btn">Back to User Page</button>
         </a>
@@ -31,15 +31,15 @@
                     {% for book in books %}
                         <li class="book-item" id="book_id_{{book.book_id}}">
                             {{ book.title }}
-                            <button type="submit" name="book_id" value="{{ book.book_id }}" class="barrow-btn"
-                                    onclick="barrowBook({{book.book_id}})">Barrow</button>
+                            <button type="submit" name="book_id" value="{{ book.book_id }}" class="borrow-btn"
+                                    onclick="borrowBook({{book.book_id}})">Borrow</button>
                         </li>
                     {% endfor %}
                 </ul>
         {% else %}
-            <p>No books available to barrow.</p>
+            <p>No books available to borrow.</p>
         {% endif %}
     </div>
-    <script src="{{ url_for('static', filename='js/barrow_book.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/borrow_book.js') }}"></script>
 </body>
 </html>

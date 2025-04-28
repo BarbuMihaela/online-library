@@ -114,8 +114,8 @@ def remove_book():
     books = read_from_db("select book_id, title from project.books")
     return render_template("remove_book.html", books=books)
 
-@app.route("/barrow_book", methods=["GET", "POST"])
-def barrow_book():
+@app.route("/borrow_book", methods=["GET", "POST"])
+def borrow_book():
 
     user_id = session['user_id']
     load_date = datetime.now()
@@ -130,22 +130,22 @@ def barrow_book():
     print(books)
     if request.method == "POST":
         data = request.get_json()
-        book_id_to_barrow = data.get("book_id")
-        print(user_id, book_id_to_barrow, load_date, return_date)
-        if book_id_to_barrow:
+        book_id_to_borrow = data.get("book_id")
+        print(user_id, book_id_to_borrow, load_date, return_date)
+        if book_id_to_borrow:
             try:
                 connection = psycopg2.connect(**database_config)
                 cursor = connection.cursor()
                 cursor.execute("insert into project.loans (user_id, book_id, loan_date, return_date) values (%s, %s, %s, %s)",
-                               (user_id, book_id_to_barrow, load_date, return_date))
+                               (user_id, book_id_to_borrow, load_date, return_date))
                 connection.commit()
-                flash("Book barrow successfully!", "success")
+                flash("Book borrow successfully!", "success")
             except Exception as e:
                 flash(f"Error: {str(e)}", "error")
             finally:
                 cursor.close()
                 connection.close()
-        return redirect(url_for("barrow_book"))
-    return render_template("barrow_book.html", books=books)
+        return redirect(url_for("borrow_book"))
+    return render_template("borrow_book.html", books=books)
 
 
