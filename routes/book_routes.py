@@ -131,7 +131,6 @@ def borrow_book():
     if request.method == "POST":
         data = request.get_json()
         book_id_to_borrow = data.get("book_id")
-        print(user_id, book_id_to_borrow, load_date, return_date)
         if book_id_to_borrow:
             try:
                 connection = psycopg2.connect(**database_config)

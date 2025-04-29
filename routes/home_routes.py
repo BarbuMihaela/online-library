@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
 from flask_smorest import abort
-from config import read_from_db, database_config
+from config import read_from_db, database_config, write_to_db
 from flask_restful import abort
 import psycopg2
 from datetime import datetime, timedelta
@@ -22,12 +22,11 @@ def web_login():
             """)
 
             if not query or isinstance(query[0], str):
-                abort(400, message="Userul nu exista")
+                return redirect(url_for("register_user", username=user))
             else:
                 session['user_id'] = query[0]['user_id']
                 session['username'] = user
                 session['is_admin'] = query[0]['is_admin']
-                # TO DO sa scapam de "da" si sa primeasca valori true folse
                 if session['is_admin'] == "Da":
                     return redirect(url_for("web_home"))
                 else:
@@ -51,6 +50,22 @@ def welcome():
 @app.route("/login")
 def home():
     return render_template("login.html")
+
+@app.route("/register_user", methods=["GET", "POST"])
+def register_user():
+    if request.method == "POST":
+        full_name = request.form['full_name']
+        username = request.form['username']
+        password = request.form['password']
+
+        insert_query = """
+            insert into project.users (full_name, username, password, is_admin)
+            values (%s, %s, %s, 'Nu')
+        """
+        write_to_db(insert_query, params=(full_name, username, password))
+
+        return redirect(url_for("web_login"))
+    return render_template("register_user.html")
 
 
 
