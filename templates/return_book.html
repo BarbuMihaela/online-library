@@ -34,7 +34,7 @@
                     <td>
                         <form action="{{ url_for('return_book') }}" method="post">
                             <input type="hidden" name="loan_id" value="{{ b.loan_id }}">
-                            <button type="submit">Return</button>
+                            <button type="submit" onclick="returnBook({{b.loan_id}}, this)">Return</button>
                         </form>
                     </td>
                 </tr>
@@ -44,5 +44,6 @@
     {% else %}
         <p class="no-books">You have no borrowed books to return.</p>
     {% endif %}
+<script src="{{ url_for('static', filename='js/return_book.js') }}"></script>
 </body>
 </html>

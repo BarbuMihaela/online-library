@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #6a5acd, #00b3b3, #6495ed); /* Gradient cameleon între lila (mov) și albastru */
+    background: linear-gradient(135deg, #6a5acd, #00b3b3, #6495ed);
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-    background-color: #6495ed; /* Albastru deschis (Cornflower Blue) */
+    background-color: #6495ed;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -25,7 +25,7 @@ body {
 }
 
 h1 {
-    color: #ffffff; /* Alb pentru contrast */
+    color: #ffffff;
     font-size: 2rem;
     margin-bottom: 20px;
     font-weight: bold;
@@ -60,12 +60,11 @@ input[type="password"] {
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #6a5acd; /* Lila deschis (Slate Blue) */
-    box-shadow: 0 0 5px rgba(106, 90, 205, 0.5); /* Efect de lila pe focus */
-}
+    border-color: #6a5acd; /
+    box-shadow: 0 0 5px rgba(106, 90, 205, 0.5); /
 
 button {
-    background-color: #00b3b3; /* Culoare cameleon între albastru și verde */
+    background-color: #00b3b3;
     color: white;
     padding: 14px 20px;
     border: none;
@@ -78,5 +77,29 @@ button {
 }
 
 button:hover {
-    background-color: #6495ed; /* Albastru deschis pe hover */
+    background-color: #6495ed;
+.create-account {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.create-account p {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.create-account button {
+    background-color: #00b3b3;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-account button:hover {
+    background-color: #6a5acd;
 }

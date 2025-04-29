@@ -15,6 +15,12 @@
             <input type="password" id="password" name="password" required><br>
 
             <button type="submit" id="loginButton">Login</button>
+            <div class="create-account">
+            <p>Don't have an account?</p>
+            <a href="{{ url_for('register_user') }}">
+                <button type="button">Create Account</button>
+            </a>
+    </div>
 
         </form>
     </div>

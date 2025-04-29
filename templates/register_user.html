@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/register_user.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Account</h1>
+        <form method="POST" class="register-form">
+            <label>Username:
+                <input type="text" name="username" value="{{ username }}">
+            </label>
+            <label>Password:
+                <input type="password" name="password">
+            </label>
+            <label>Full Name:
+                <input type="text" name="full_name">
+            </label>
+            <button type="submit">Register</button>
+        </form>
+        <p class="login-link">
+            Already have an account? <a href="{{ url_for('web_login') }}">Login here</a>
+        </p>
+    </div>
+</body>
+</html>

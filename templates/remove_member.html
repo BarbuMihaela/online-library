@@ -27,7 +27,7 @@
 
         {% if users %}
             <h2>List of Members</h2>
-            <form method="POST">
+            <form >
                 <div class="members-list">
                     {% for user in users %}
                         <div class="member-item">
@@ -35,7 +35,8 @@
                                 <p>{{ user.full_name }}</p>
                             </div>
                             <div class="remove-action">
-                                <button type="submit" name="user_id" value="{{ user.user_id }}" class="remove-btn">Remove</button>
+                                <button type="submit" name="user_id" value="{{ user.user_id }}" class="remove-btn"
+                                onclick="removeMember({{ user.user_id }})">Remove</button>
                             </div>
                         </div>
                     {% endfor %}
@@ -51,5 +52,6 @@
             <p>{{ flash_messages }}</p>
         </div>
     {% endif %}
+    <script src="{{ url_for('static', filename='js/remove_member.js') }}"></script>
 </body>
 </html>

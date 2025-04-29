@@ -17,15 +17,16 @@ def view_members():
     return render_template("view_members.html", members=query)
 
 
-@app.route("/remove_member", methods=["GET", "POST"])
+@app.route("/remove_member", methods=["GET", "DELETE"])
 def remove_member():
-    if request.method == "POST":
-        user_id_to_remove = request.form.get('user_id')
-        if user_id_to_remove:
+    if request.method == "DELETE":
+        data = request.get_json()
+        remove_member_id = data.get("user_id")
+        if remove_member_id:
             try:
                 connection = psycopg2.connect(**database_config)
                 cursor = connection.cursor()
-                cursor.execute("delete from project.users where user_id = %s", (user_id_to_remove,))
+                cursor.execute("delete from project.users where user_id = %s", (remove_member_id,))
                 connection.commit()
                 flash("User removed successfully!", "success")
             except Exception as e:
