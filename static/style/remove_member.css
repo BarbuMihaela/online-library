@@ -120,3 +120,29 @@ h2 {
 .flash-messages p {
     font-size: 1.5rem;
 }
+/* Ascunde div-ul inițial */
+.disable {
+    display: none;
+}
+
+/* Mesaj de succes */
+.success-msg {
+    display: block;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* Mesaj de eroare */
+.error-msg {
+    display: block;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-top: 10px;
+}

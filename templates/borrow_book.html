@@ -25,17 +25,19 @@
             {% endif %}
         {% endwith %}
 
-        {% if books %}
+                {% if books %}
             <h2>List of Books</h2>
-                <ul class="book-list">
-                    {% for book in books %}
-                        <li class="book-item" id="book_id_{{book.book_id}}">
-                            {{ book.title }}
-                            <button type="submit" name="book_id" value="{{ book.book_id }}" class="borrow-btn"
-                                    onclick="borrowBook({{book.book_id}})">Borrow</button>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <ul class="book-list">
+                {% for book in books %}
+                    <li class="book-item" id="book_id_{{book.book_id}}">
+                        <strong>{{ book.title }}</strong> by {{ book.author }}<br>
+                        <em>{{ book.description }}</em>
+                        <button type="button" class="borrow-btn" onclick="borrowBook({{ book.book_id }})">
+                            Borrow
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
             <p>No books available to borrow.</p>
         {% endif %}

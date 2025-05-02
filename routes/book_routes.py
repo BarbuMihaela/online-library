@@ -125,6 +125,7 @@ def borrow_book():
             from project.books b
             join project.authors a on b.author_id = a.author_id
             join project.genres g on b.genre_id = g.genre_id
+            where b.book_id not in ( select book_id from project.loans)
         """
     books = read_from_db(query)
     print(books)
@@ -135,6 +136,12 @@ def borrow_book():
             try:
                 connection = psycopg2.connect(**database_config)
                 cursor = connection.cursor()
+                q1 = """select *  from project.loans where book_id = %s and user_id = %s"""
+                book = read_from_db(q1, params=(book_id_to_borrow, session['user_id']))
+                if book:
+                    return jsonify({"status": "Bad request",
+                                    "user_id": session['user_id'],
+                                    "message": "You have already borrow this book"}),400
                 cursor.execute("insert into project.loans (user_id, book_id, loan_date, return_date) values (%s, %s, %s, %s)",
                                (user_id, book_id_to_borrow, load_date, return_date))
                 connection.commit()
