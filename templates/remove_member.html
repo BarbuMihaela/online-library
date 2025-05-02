@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Member</title>
+    <title>View/Remove Member</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style/remove_member.css') }}">
 </head>
 <body>
     <header>
-        <h1>Remove Member</h1>
+        <h1>View/Remove Member</h1>
         <a href="{{ url_for('web_home') }}">
             <button class="admin-btn">Back to Admin Page</button>
         </a>
@@ -26,22 +26,23 @@
         {% endwith %}
 
         {% if users %}
+        <div class = "disable" id = "error_msg">
+
+        </div>
             <h2>List of Members</h2>
-            <form >
                 <div class="members-list">
                     {% for user in users %}
-                        <div class="member-item">
+                        <div class="member-item" id="user_id_{{ user.user_id }}">
                             <div class="member-info">
                                 <p>{{ user.full_name }}</p>
                             </div>
                             <div class="remove-action">
-                                <button type="submit" name="user_id" value="{{ user.user_id }}" class="remove-btn"
+                                <button type="button" name="user_id" value="{{ user.user_id }}" class="remove-btn"
                                 onclick="removeMember({{ user.user_id }})">Remove</button>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-            </form>
         {% else %}
             <p>No members found to remove.</p>
         {% endif %}

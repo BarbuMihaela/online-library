@@ -8,12 +8,18 @@
 <body>
     <div class="container">
         <h1>Create New Account</h1>
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
         <form method="POST" class="register-form">
             <label>Username:
                 <input type="text" name="username" value="{{ username }}">
             </label>
             <label>Password:
                 <input type="password" name="password">
+            </label>
+            <label>Confirm Password:
+                <input type="password" name="confirm_password">
             </label>
             <label>Full Name:
                 <input type="text" name="full_name">

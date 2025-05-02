@@ -11,10 +11,6 @@ from flask_api import app
 def web_home():
     return render_template("admin_page.html")
 
-@app.route("/view_members")
-def view_members():
-    query = read_from_db("SELECT full_name FROM project.users WHERE is_admin != 'Da'")
-    return render_template("view_members.html", members=query)
 
 
 @app.route("/remove_member", methods=["GET", "DELETE"])
@@ -28,7 +24,8 @@ def remove_member():
                 cursor = connection.cursor()
                 cursor.execute("delete from project.users where user_id = %s", (remove_member_id,))
                 connection.commit()
-                flash("User removed successfully!", "success")
+                return jsonify({"success": True,
+                                "message": "User removed successfully!"})
             except Exception as e:
                 flash(f"Error: {str(e)}", "error")
             finally:
