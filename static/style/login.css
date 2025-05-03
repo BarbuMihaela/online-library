@@ -1,105 +1,101 @@
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #6a5acd, #00b3b3, #6495ed);
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4; /* Fundal deschis, neutru */
 }
 
+/* Containerul pentru login */
 .container {
-    background-color: #6495ed;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundal alb translucid pentru un contrast bun */
+    padding: 40px;
+    border-radius: 12px;
     text-align: center;
-    transition: transform 0.3s ease;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Umbră subtilă pentru a ieși în evidență */
+    margin: 100px auto; /* Centrăm containerul pe pagină */
 }
 
-.container:hover {
-    transform: scale(1.05);
-}
-
-h1 {
-    color: #ffffff;
-    font-size: 2rem;
+/* Titlul principal al paginii */
+.container h1 {
+    font-size: 3rem;
+    color: #3e3e3e;
     margin-bottom: 20px;
     font-weight: bold;
+    letter-spacing: 2px;
 }
 
+/* Descrierea sub titlu */
+.container p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Formularele de login */
 form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 20px;
 }
 
-label {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    text-align: left;
-    width: 100%;
-    padding-left: 10px;
+/* Inputurile pentru utilizator */
+input[type="text"], input[type="password"] {
+    padding: 12px;
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
     color: #333;
 }
 
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #6a5acd; /
-    box-shadow: 0 0 5px rgba(106, 90, 205, 0.5); /
-
-button {
-    background-color: #00b3b3;
+/* Butonul de login cu efect de hover */
+#loginButton {
+    background-color: #8b5e3c; /* Ton cald, maro */
     color: white;
-    padding: 14px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #6495ed;
-.create-account {
-    margin-top: 25px;
-    text-align: center;
-}
-
-.create-account p {
-    color: #fff;
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-}
-
-.create-account button {
-    background-color: #00b3b3;
-    color: white;
-    padding: 12px 20px;
+    padding: 14px 28px;
+    font-size: 1.2rem;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+#loginButton:hover {
+    background-color: #6f4e37;
+}
+
+/* Butonul pentru crearea unui cont */
+button[type="button"] {
+    background-color: #4b3f72; /* Culoare elegantă, în ton cu tema */
+    color: white;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-.create-account button:hover {
-    background-color: #6a5acd;
+button[type="button"]:hover {
+    background-color: #3b2a45;
+}
+
+/* Pulsare subtilă pentru butonul de login */
+.pulse {
+    animation: pulse 2.5s infinite;
+}
+
+/* Animații */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }

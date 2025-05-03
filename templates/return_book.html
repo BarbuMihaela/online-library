@@ -17,13 +17,18 @@
         </a>
     </div>
 
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
     {% if borrowings %}
         <table>
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
-                    <th>Action</th>
+                    <th>Return Date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,10 +36,18 @@
                 <tr>
                     <td>{{ b.title }}</td>
                     <td>{{ b.author_name }}</td>
+                    <td>{{ b.return_date if b.return_date else "Not set" }}</td>
                     <td>
-                        <form action="{{ url_for('return_book') }}" method="post">
+                        <form action="{{ url_for('return_book') }}" method="post" style="display:inline;">
                             <input type="hidden" name="loan_id" value="{{ b.loan_id }}">
-                            <button type="submit" onclick="returnBook({{b.loan_id}}, this)">Return</button>
+                            <input type="hidden" name="action" value="return">
+                            <button type="submit">Return</button>
+                        </form>
+
+                        <form action="{{ url_for('return_book') }}" method="post" style="display:inline;">
+                            <input type="hidden" name="loan_id" value="{{ b.loan_id }}">
+                            <input type="hidden" name="action" value="extend">
+                            <button type="submit">Extend Deadline by 10 Days</button>
                         </form>
                     </td>
                 </tr>
@@ -44,6 +57,5 @@
     {% else %}
         <p class="no-books">You have no borrowed books to return.</p>
     {% endif %}
-<script src="{{ url_for('static', filename='js/return_book.js') }}"></script>
 </body>
 </html>

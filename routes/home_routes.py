@@ -51,22 +51,6 @@ def welcome():
 def home():
     return render_template("login.html")
 
-# @app.route("/register_user", methods=["GET", "POST"])
-# def register_user():
-#     if request.method == "POST":
-#         full_name = request.form['full_name']
-#         username = request.form['username']
-#         password = request.form['password']
-#
-#         insert_query = """
-#             insert into project.users (full_name, username, password, is_admin)
-#             values (%s, %s, %s, 'Nu')
-#         """
-#         write_to_db(insert_query, params=(full_name, username, password))
-#
-#         return redirect(url_for("web_login"))
-#     return render_template("register_user.html")
-#
 
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():

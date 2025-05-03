@@ -1,92 +1,132 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6a5acd, #00b3b3, #6495ed);
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4; /* Fundal deschis, neutru */
 }
 
-.register-container {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 40px 35px;
+/* Containerul pentru pagina de înregistrare */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Fundal alb translucid pentru un contrast bun */
+    padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    width: 100%;
-    max-width: 420px;
     text-align: center;
-    transition: transform 0.3s ease-in-out;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Umbră subtilă pentru a ieși în evidență */
+    margin: 100px auto; /* Centrăm containerul pe pagină */
 }
 
-.register-container:hover {
-    transform: scale(1.02);
+/* Titlul principal */
+.container h1 {
+    font-size: 2.5rem;
+    color: #3e3e3e;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-h1 {
-    color: #333;
-    font-size: 2.2rem;
-    margin-bottom: 30px;
-}
-
+/* Formularele de înregistrare */
 form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-label {
+/* Etichetele din formular */
+form label {
     font-size: 1.1rem;
-    font-weight: 600;
-    color: #444;
+    color: #333;
     text-align: left;
+    margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="password"] {
-    padding: 14px 16px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    outline: none;
-    transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #6a5acd;
-    box-shadow: 0 0 6px rgba(106, 90, 205, 0.4);
-}
-
-button {
-    background: linear-gradient(90deg, #00b3b3, #6a5acd);
-    color: white;
-    padding: 16px;
+/* Inputurile pentru utilizator */
+input[type="text"], input[type="password"] {
+    padding: 12px;
     font-size: 1.1rem;
-    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Butonul de înregistrare cu efect de hover */
+button[type="submit"] {
+    background-color: #8b5e3c; /* Ton cald, maro */
+    color: white;
+    padding: 14px 28px;
+    font-size: 1.2rem;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
-button:hover {
-    background: linear-gradient(90deg, #6a5acd, #00b3b3);
+button[type="submit"]:hover {
+    background-color: #6f4e37;
 }
 
-.register-footer {
-    margin-top: 25px;
-    font-size: 0.95rem;
-    color: #444;
+/* Link-ul pentru autentificare */
+.login-link {
+    margin-top: 20px;
+    font-size: 1rem;
 }
 
-.register-footer a {
-    color: #6a5acd;
+.login-link a {
+    color: #8b5e3c;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: bold;
 }
 
-.register-footer a:hover {
-    text-decoration: underline;
+.login-link a:hover {
+    color: #6f4e37;
+}
+
+/* Mesajul de eroare */
+p[style="color:red;"] {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+/* Animație pentru butonul de înregistrare */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+button[type="submit"].pulse {
+    animation: pulse 2.5s infinite;
+}
+
+/* Responsivitate */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    .container h1 {
+        font-size: 2rem;
+    }
+
+    form {
+        gap: 15px;
+    }
+
+    input[type="text"], input[type="password"] {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+        padding: 12px 24px;
+    }
 }

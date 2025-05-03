@@ -1,41 +1,53 @@
+/* Body */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #c0fdfb, #a0eec0);
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #f4f7f6, #f0e1d2); /* Fundal deschis cu un gradient subtil */
     margin: 0;
     padding: 0;
-    color: #003049;
+    color: #333; /* Culoare text mai ușor de citit */
 }
 
+/* Header */
 header {
-    background-color: #5cc1b3;
+    background-color: #8b5e3c; /* Maro cald pentru header */
     padding: 20px;
     text-align: center;
     color: white;
+    border-bottom: 3px solid #6f4e37; /* Adăugat o margine subtile */
 }
 
+/* Butonul Admin */
 .admin-btn {
-    background-color: #0177a8;
+    background-color: #6f4e37; /* Culoare maro caldă pentru buton */
     color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
     margin-top: 10px;
+    border-radius: 6px; /* Colțuri rotunjite */
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .admin-btn:hover {
-    background-color: #015e84;
+    background-color: #4e3b2e; /* Culoare mai închisă la hover */
+    transform: scale(1.05); /* Efect de mărire la hover */
 }
 
+/* Secțiunea principală (main) */
 main {
     padding: 30px;
     text-align: center;
 }
 
+/* Tabelul de împrumuturi */
 .borrowings-table {
     width: 80%;
-    margin: 0 auto;
+    margin: 20px auto;
     border-collapse: collapse;
-    background-color: #eafff5;
+    background-color: #eafff5; /* Fundal deschis pentru tabel */
+    border-radius: 8px; /* Colțuri rotunjite */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbră subtile pentru tabel */
 }
 
 .borrowings-table th,
@@ -43,13 +55,37 @@ main {
     border: 1px solid #ccc;
     padding: 12px;
     font-size: 1em;
+    text-align: center; /* Centrat textul în tabel */
 }
 
 .borrowings-table th {
-    background-color: #61c0bf;
+    background-color: #61c0bf; /* Albastru deschis pentru antetul tabelului */
     color: white;
 }
 
 .borrowings-table tr:nth-child(even) {
-    background-color: #d1f5e0;
+    background-color: #d1f5e0; /* Culoare deschisă pentru rândurile pare */
+}
+
+.borrowings-table tr:nth-child(odd) {
+    background-color: #f4f7f6; /* Culoare de fundal ușor diferită pentru rândurile impare */
+}
+
+.borrowings-table td {
+    font-size: 1rem; /* Ajustează fontul pentru o mai bună lizibilitate */
+}
+
+/* Stil pentru mesaje de succes și eroare (pentru alertă) */
+.flash-message {
+    background-color: #28a745; /* Verde pentru succes */
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flash-message.error {
+    background-color: #dc3545; /* Roșu pentru erori */
 }

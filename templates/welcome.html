@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/welcome.css') }}">
     <title>Welcome to Our Library</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/welcome.css') }}">
 </head>
 <body>
-    <div id="welcome-container">
-        <h1>Welcome to Your Personal Library!</h1>
-        <p>Browse, borrow, and enjoy your favorite books!</p>
-        <a href="{{ url_for('home') }}">
-            <button id="connect-btn" class="btn">Connect</button>
-        </a>
+    <div class="animated-background">
+        <div class="welcome-box slide-in">
+            <h1>Welcome to Your Personal Library</h1>
+            <p>Browse, borrow, and enjoy your favorite books!</p>
+            <a href="{{ url_for('home') }}">
+                <button class="btn pulse">Enter Library</button>
+            </a>
+        </div>
     </div>
 </body>
 </html>

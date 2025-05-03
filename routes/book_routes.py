@@ -170,26 +170,55 @@ def pending_books():
     return render_template("pending_books.html", borrowings=borrowings)
 
 
+
 @app.route("/return_book", methods=["GET", "POST"])
 def return_book():
     user_id = session['user_id']
     if request.method == "POST":
         loan_id = request.form.get("loan_id")
-        if loan_id:
-            query = """
-                    delete from project.loans
-                    where loan_id = %s and user_id = %s
-                    """
-            write_to_db(query, params=(loan_id, user_id))
-        return redirect(url_for('return_book'))
+        action = request.form.get("action")
 
+        if action == "return":
+            query = """
+                delete from project.loans
+                where loan_id = %s and user_id = %s
+            """
+            write_to_db(query, params=(loan_id, user_id))
+            flash("Book returned successfully!", "success")
+        elif action == "extend":
+            query = """
+                select return_date
+                from project.loans
+                where loan_id = %s and user_id = %s
+            """
+            result = read_from_db(query, params=(loan_id, user_id))
+            if result:
+                return_date = result[0]['return_date']
+                if return_date:
+                    if isinstance(return_date, datetime):
+                        return_date = return_date.date()
+                    today = datetime.today().date()
+                    extend_start_date = return_date - timedelta(days=3)
+                    if today >= extend_start_date:
+                        new_return_date = return_date + timedelta(days=10)
+                        update_query = """
+                            update project.loans
+                            set return_date = %s
+                            where loan_id = %s AND user_id = %s
+                        """
+                        write_to_db(update_query, params=(new_return_date, loan_id, user_id))
+                        flash(f"Deadline extended to {new_return_date.strftime('%Y-%m-%d')}.", "success")
+                    else:
+                        flash(f"You can extend the deadline starting on {extend_start_date.strftime('%Y-%m-%d')}.", "error")
+                else:
+                    flash("Extension is only available after a return date is set.", "error")
     query = """
-        select b.title, a.full_name as author_name, l.loan_id
+        select b.title, a.full_name as author_name, l.loan_id, l.return_date
         from project.loans l
-        join project.books b on b.book_id = l.book_id
-        join project.authors a on b.author_id = a.author_id
+        join project.books b ON b.book_id = l.book_id
+        join project.authors a ON b.author_id = a.author_id
         where l.user_id = %s
-        order by l.loan_date asc
+        order by l.loan_date ASC
     """
     borrowings = read_from_db(query, params=(user_id,))
     return render_template("return_book.html", borrowings=borrowings)

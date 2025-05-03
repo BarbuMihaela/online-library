@@ -1,78 +1,127 @@
-/* Reset all default margin and padding */
-* {
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4; /* Fundal deschis, neutru */
 }
 
-/* General body styling */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f9f4; /* Light green tint */
-    color: #333;
-    line-height: 1.6;
-}
-
-/* Header */
+/* Header-ul paginii */
 #header {
-    background: #48C9B0; /* Blue-green (chameleon) */
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#welcome-title {
-    font-size: 2.5em;
-    font-weight: bold;
-}
-
-#logout-btn {
-    background-color: #1F618D; /* Dark blue shade */
+    background-color: #8b5e3c; /* Ton cald, maro */
     color: white;
-    border: none;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 100;
+}
+
+/* Titlul de bun venit */
+#welcome-title {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Butonul de logout */
+#logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #6f4e37;
+    color: white;
     padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 1em;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
 #logout-btn:hover {
-    background-color: #2980B9; /* Lighter blue on hover */
+    background-color: #4e3b2e;
 }
 
-/* User info section */
+/* Informațiile utilizatorului */
 #user-info {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
     text-align: center;
-    margin-top: 40px;
-    font-size: 1.2em;
-    color: #333;
+    max-width: 800px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin: 40px auto;
 }
 
+/* Numele utilizatorului */
 .username {
-    color: #1F618D; /* Dark blue */
+    font-size: 1.5rem;
     font-weight: bold;
+    color: #3e3e3e;
 }
 
-/* Navigation bar */
+/* Descrierea utilizatorului */
+.description {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* Bara de navigare */
 #toolbar {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     margin-top: 30px;
 }
 
-.btn {
-    background-color: #48C9B0; /* Blue-green */
+/* Butoanele din bara de navigare */
+#toolbar .btn {
+    background-color: #8b5e3c;
     color: white;
+    padding: 12px 24px;
+    font-size: 1.1rem;
     border: none;
-    padding: 12px 20px;
+    border-radius: 6px;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 1.1em;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
 }
 
-.btn:hover {
-    background-color: #40916c; /* culoare mai închisă la hover */
+#toolbar .btn:hover {
+    background-color: #6f4e37;
+}
+
+/* Media Queries pentru dispozitive mobile */
+@media screen and (max-width: 768px) {
+    #header {
+        padding: 15px;
+    }
+
+    #welcome-title {
+        font-size: 2rem;
+    }
+
+    #logout-btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    #user-info {
+        padding: 20px;
+        margin: 20px;
+    }
+
+    #toolbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #toolbar .btn {
+        width: 100%;
+        padding: 10px;
+    }
 }

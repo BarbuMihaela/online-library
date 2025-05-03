@@ -17,7 +17,7 @@ body {
 /* Header */
 #admin-header {
     text-align: center;
-    background-color: #27AE60; /* Verde vibrant pentru header */
+    background-color: #8b5e3c; /* Verde cald pentru header */
     padding: 20px;
     color: white;
     border-radius: 8px;
@@ -32,7 +32,7 @@ body {
 
 /* Buton de log out */
 #logout-btn {
-    background-color: #E74C3C; /* Roșu pentru log out */
+    background-color: #6f4e37; /* Maro pentru log out */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -45,7 +45,7 @@ body {
 }
 
 #logout-btn:hover {
-    background-color: #C0392B; /* Roșu închis la hover */
+    background-color: #4e3b2e; /* Maro închis la hover */
     transform: scale(1.05);
 }
 
@@ -71,7 +71,7 @@ body {
 
 /* Stil pentru butoanele admin */
 .admin-btn {
-    background-color: #48C9B0; /* Albastru-verde */
+    background-color: #48C9B0; /* Albastru-verde pentru butoane */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -91,3 +91,32 @@ body {
 
 /* Stil pentru containerul butoanelor */
 .button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Stil pentru butoanele de pe toolbar */
+#add-book-btn,
+#view-books-btn,
+#remove-book-btn,
+#remove-member-btn,
+#add-member-btn,
+#pending-borrowings-btn {
+    background-color: #8b5e3c; /* Ton maro deschis pentru butoane */
+    color: white;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 200px;
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#add-book-btn:hover,
+#view-books-btn:hover,
+#remove-book-btn:hover,
+#remove-member
