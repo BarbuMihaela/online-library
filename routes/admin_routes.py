@@ -42,28 +42,40 @@ def add_member():
         fullname = request.form['full_name']
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form.get('confirm_password')  # nou
         is_admin = request.form['is_admin']
 
-        if not fullname or not username or not password or not is_admin:
+        if not fullname or not username or not password or not confirm_password or not is_admin:
             flash("Please fill in all fields.", "error")
-            return render_template("add_member.html")
+            return render_template("add_member.html", username=username)
+
+        check_query = "select * from project.users where username = %s"
+        existing_user = read_from_db(check_query, params=(username,))
+        if existing_user:
+            flash("Username already exists. Please choose another one.", "error")
+            return render_template("add_member.html", username=username)
+
+        if username.isnumeric():
+            flash("Username cannot contain only numbers.", "error")
+            return render_template("add_member.html", username=username)
+
+        if password != confirm_password:
+            flash("Passwords do not match.", "error")
+            return render_template("add_member.html", username=username)
+
+        if len(password) < 6:
+            flash("Password must be at least 6 characters long.", "error")
+            return render_template("add_member.html", username=username)
 
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
-            cursor.execute("select * from project.users where username = %s", (username,))
-            query_user = cursor.fetchall()
-
-            if query_user:
-                flash("User already exists.", "error")
-            else:
-                cursor.execute(
-                    "insert into project.users (full_name, username, password, is_admin) values (%s, %s, %s, %s)",
-                    (fullname, username, password, is_admin)
-                )
-                connection.commit()
-                flash("User added successfully!", "success")
-
+            cursor.execute(
+                "insert into project.users (full_name, username, password, is_admin) values (%s, %s, %s, %s)",
+                (fullname, username, password, is_admin)
+            )
+            connection.commit()
+            flash("User added successfully!", "success")
             cursor.close()
             connection.close()
             return redirect(url_for("add_member"))
@@ -71,9 +83,9 @@ def add_member():
         except Exception as e:
             print(f"Error: {e}")
             flash("An error occurred while adding the user.", "error")
-            return render_template("add_member.html")
-
+            return render_template("add_member.html", username=username)
     return render_template("add_member.html")
+
 
 @app.route("/pending_borrowings")
 def pending_borrowings():

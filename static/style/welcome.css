@@ -1,41 +1,111 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    background-color: #f0f8ff;
+    font-family: 'Georgia', serif;
+    position: relative;
 }
 
-#welcome-container {
-    text-align: center;
+/* Fundal cu imaginea bibliotecii și efectul de zoom */
+.animated-background {
+    background-image: url("../img/library.jpg"); /* Căutați o imagine de bibliotecă clasică și puneți-o în folderul img */
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    animation: zoom 30s infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: sepia(0.5); /* Dă un aspect vintage */
+    position: relative;
+    overflow: hidden;
 }
 
-h1 {
-    font-size: 3em;
-    color: #4CAF50;
-}
-
-p {
-    font-size: 1.5em;
-    color: #555;
-}
-
-#connect-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px 32px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+/* Overlay întunecat peste imagine pentru un contrast mai bun */
+.animated-background::before {
+    content: "";
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    transition: background-color 0.3s;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Se adaugă un overlay întunecat */
+    z-index: 1;
 }
 
-#connect-btn:hover {
-    background-color: #45a049;
+/* Caseta de bun venit cu un stil elegant */
+.welcome-box {
+    background-color: rgba(255, 255, 255, 0.85); /* Fundal alb translucid */
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 600px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards 0.8s;
+    position: relative;
+    z-index: 2;
+}
+
+/* Titlul principal al paginii */
+.welcome-box h1 {
+    font-size: 3rem;
+    color: #3e3e3e;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+/* Descrierea sub titlu */
+.welcome-box p {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Butonul de conectare cu efect de hover */
+.btn {
+    background-color: #8b5e3c; /* Ton cald, maro */
+    color: white;
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #6f4e37;
+}
+
+/* Pulsare subtilă pentru buton */
+.pulse {
+    animation: pulse 2.5s infinite;
+}
+
+/* Animații */
+@keyframes zoom {
+    0% {
+        background-size: 100%;
+    }
+    100% {
+        background-size: 110%;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }

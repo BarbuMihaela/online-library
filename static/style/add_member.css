@@ -1,91 +1,163 @@
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #a8e063, #56ab2f); /* verde cameleon */
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
+    font-family: 'Georgia', serif;
+    position: relative;
+    background-color: #f4f4f4; /* Fundal deschis */
 }
 
+/* Fundal cu imaginea și efect de zoom */
+.animated-background {
+    background-image: url("../img/library.jpg"); /* Folosește imaginea de bibliotecă */
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    animation: zoom 30s infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: sepia(0.5); /* Efect vintage */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Overlay pentru contrast */
+.animated-background::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4); /* Overlay întunecat */
+    z-index: 1;
+}
+
+/* Header */
 header {
-    background-color: #355e3b; /* verde închis cameleon */
-    color: white;
+    background-color: #8b5e3c; /* Maro cald */
     padding: 20px;
     text-align: center;
+    color: white;
 }
 
+/* Titlu header */
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+/* Butonul de back */
 .admin-btn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 5px;
+    background-color: #6f4e37; /* Maro închis pentru buton */
     color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .admin-btn:hover {
-    background-color: #45a049;
+    background-color: #4e3b2e; /* Maro mai închis la hover */
 }
 
+/* Form container */
 .form-container {
-    background-color: #f1ffe7;
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Fundal alb translucid */
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #2c5f2d;
-}
-
-form input,
-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #8bc34a;
-    background-color: #e8f5e9;
-}
-
-form input:focus,
-form select:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-
-.submit-btn {
-    background-color: #6aa84f;
+/* Mesaje succes/error */
+.success-message {
+    background-color: #27ae60; /* Verde pentru succes */
     color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.submit-btn:hover {
-    background-color: #558b2f;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .messages {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
-    margin-bottom: 20px;
 }
 
-.messages li.success {
-    color: #2e7d32;
-    background-color: #c8e6c9;
-    padding: 10px;
-    border-radius: 5px;
+.messages li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
-.messages li.error {
-    color: #c62828;
-    background-color: #ffebee;
+/* Formular de adăugare membru */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+form input, form select {
     padding: 10px;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+form input:focus, form select:focus {
+    outline: none;
+    border-color: #8b5e3c; /* Maro la focus pentru un efect elegant */
+}
+
+.submit-btn {
+    background-color: #8b5e3c; /* Ton cald pentru buton */
+    color: white;
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background-color: #6f4e37; /* Maro mai închis la hover */
+}
+
+/* Responsivitate */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .form-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .submit-btn {
+        padding: 12px 24px;
+    }
+}
+
+/* Animație de zoom pentru background */
+@keyframes zoom {
+    0% {
+        background-size: 100%;
+    }
+    100% {
+        background-size: 110%;
+    }
 }

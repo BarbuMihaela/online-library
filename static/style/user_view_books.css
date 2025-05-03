@@ -1,65 +1,124 @@
-/* user_view_books.css */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+/* Resetare margini și padding pentru body și html */
+body, html {
+    height: 100%;
     margin: 0;
-    padding: 0;
+    font-family: 'Georgia', serif;
+    background-color: #f4f4f4; /* Fundal deschis, neutru */
 }
 
+/* Header-ul paginii */
 header {
-    background-color: #0f4b5f;
+    background-color: #8b5e3c; /* Ton cald, maro */
     color: white;
-    text-align: center;
     padding: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 100;
 }
 
-header a {
-    text-decoration: none;
-    color: white;
-}
-
-h1 {
+/* Titlul paginii */
+header h1 {
+    font-size: 2.5rem;
     margin: 0;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
+/* Butonul de întoarcere la pagina utilizatorului */
+.admin-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #6f4e37;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.admin-btn:hover {
+    background-color: #4e3b2e;
+}
+
+/* Containerul principal al paginii */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Tabelul cu lista de cărți */
 .books-table {
-    width: 80%;
-    margin: 30px auto;
+    width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Antetul tabelului */
+.books-table thead {
+    background-color: #8b5e3c;
+    color: white;
+    font-size: 1.1rem;
+}
+
+/* Celulele antetului */
+.books-table th {
+    padding: 12px;
     text-align: left;
 }
 
-.books-table th,
+/* Corpul tabelului */
+.books-table tbody tr {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Celulele corpului tabelului */
 .books-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
 }
 
-.books-table th {
-    background-color: #2c6b7f;
-    color: white;
+/* Efect la hover pentru rândurile tabelului */
+.books-table tbody tr:hover {
+    background-color: #f1f1f1;
 }
 
-.books-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
+/* Stilizare pentru titlurile cărților */
 .highlight-title {
-    background-color: #d4f1f4;
-    padding: 5px;
     font-weight: bold;
-    border-radius: 4px;
+    color: #3e3e3e;
+    text-decoration: underline;
 }
 
-button {
-    background-color: #2c6b7f;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+/* Mesaj pentru cazurile în care nu există cărți */
+main p {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
 }
 
-button:hover {
-    background-color: #18475d;
+/* Media Queries pentru dispozitive mobile */
+@media screen and (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .admin-btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    .books-table th, .books-table td {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
 }
