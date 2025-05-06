@@ -18,23 +18,37 @@ def remove_member():
     if request.method == "DELETE":
         data = request.get_json()
         remove_member_id = data.get("user_id")
+
         if remove_member_id:
             try:
                 connection = psycopg2.connect(**database_config)
                 cursor = connection.cursor()
+                cursor.execute("""
+                    select b.title, l.return_date
+                    from project.loans l
+                    join project.books b on l.book_id = b.book_id
+                    where l.user_id = %s and l.return_date IS NULL
+                    """, (remove_member_id,))
+                loaned_books = cursor.fetchall()
+                if loaned_books:
+                    book_title = loaned_books[0][0]
+                    message = f"The member cannot be removed. They have borrowed the book '{book_title}' which must be returned first."
+                    return jsonify({"success": False, "message": message})
+
                 cursor.execute("delete from project.users where user_id = %s", (remove_member_id,))
                 connection.commit()
-                return jsonify({"success": True,
-                                "message": "User removed successfully!"})
+                return jsonify({"success": True, "message": "Member removed successfully."})
+
             except Exception as e:
-                flash(f"Error: {str(e)}", "error")
+                return jsonify({"success": False, "message": f"Error: {str(e)}"})
+
             finally:
                 cursor.close()
                 connection.close()
-        return redirect(url_for("remove_member"))
 
-    users = read_from_db("select user_id, full_name FROM project.users where is_admin != 'Da'")
+    users = read_from_db("select user_id, full_name from project.users where is_admin != 'Da'")
     return render_template("remove_member.html", users=users)
+
 
 @app.route("/add_member", methods=["GET", "POST"])
 def add_member():

@@ -16,11 +16,17 @@
             <button type="button">Return to User Page</button>
         </a>
     </div>
-
-    {% if message %}
-        <p class="message">{{ message }}</p>
-    {% endif %}
-
+    <div>
+       {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
     {% if borrowings %}
         <table>
             <thead>
