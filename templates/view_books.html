@@ -20,7 +20,19 @@
                     <tr>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Pages</th>
+                        <th>
+                            <form action="{{ url_for('view_books') }}" method="GET">
+                                <label for="page_count">Pages</label>
+                                <select name="page_count" id="page_count" onchange="this.form.submit()">
+                                    <option value="" disabled selected>Filter by pages</option>
+                                    <option value="1" {% if selected_page =='1' %}selected{% endif %}>&lt; 200</option>
+                                    <option value="2" {% if selected_page =='2' %}selected{% endif %}>200 - 299</option>
+                                    <option value="3" {% if selected_page =='3' %}selected{% endif %}>300 - 399</option>
+                                    <option value="4" {% if selected_page =='4' %}selected{% endif %}>400 - 499</option>
+                                    <option value="5" {% if selected_page =='5' %}selected{% endif %}>&ge; 500</option>
+                                </select>
+                            </form>
+                        </th>
                         <th>Author</th>
                         <th>Genre</th>
                     </tr>
@@ -32,7 +44,7 @@
                         <td>{{ book.description }}</td>
                         <td>{{ book.page_count }}</td>
                         <td>{{ book.author }}</td>
-                        <td>{{ book.genre }}</td>  <!-- Aici apare genul -->
+                        <td>{{ book.genre }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

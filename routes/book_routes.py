@@ -73,14 +73,30 @@ def add_book():
 
 @app.route("/view_books")
 def view_books():
+    selected_pages = request.args.get("page_count")
     query = """
-        select b.title, b.description, b.page_count, a.full_name as author, g.genre_name as genre
-        from project.books b
-        join project.authors a on b.author_id = a.author_id
-        join project.genres g on b.genre_id = g.genre_id
+        SELECT b.title, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
+        FROM project.books b
+        JOIN project.authors a ON b.author_id = a.author_id
+        JOIN project.genres g ON b.genre_id = g.genre_id
     """
+
+    if selected_pages and selected_pages.isdigit():
+        selected_pages = int(selected_pages)
+        if selected_pages == 1:
+            query += " where b.page_count < 200"
+        elif selected_pages == 2:
+            query += " where b.page_count >= 200 AND b.page_count < 300"
+        elif selected_pages == 3:
+            query += " where b.page_count >= 300 AND b.page_count < 400"
+        elif selected_pages == 4:
+            query += " where b.page_count >= 400 AND b.page_count < 500"
+        elif selected_pages == 5:
+            query += " WHERE b.page_count >= 500"
+
     books = read_from_db(query)
-    return render_template("view_books.html", books=books)
+    return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
+
 
 @app.route("/user_view_books")
 def user_view_books():
@@ -142,8 +158,8 @@ def borrow_book():
                     return jsonify({"status": "Bad request",
                                     "user_id": session['user_id'],
                                     "message": "You have already borrow this book"}),400
-                cursor.execute("insert into project.loans (user_id, book_id, loan_date, return_date) values (%s, %s, %s, %s)",
-                               (user_id, book_id_to_borrow, load_date, return_date))
+                cursor.execute("insert into project.loans (user_id, book_id, loan_date, return_date, extend) values (%s, %s, %s, %s, %s)",
+                               (user_id, book_id_to_borrow, load_date, return_date, 0))
                 connection.commit()
                 flash("Book borrow successfully!", "success")
             except Exception as e:
@@ -162,7 +178,7 @@ def pending_books():
         from project.loans l
         join project.books b on b.book_id = l.book_id
         join project.authors a on a.author_id = b.author_id
-        where l.return_date > now()
+        where l.return_date >= date(now())
         order by l.return_date ASC
     """
     borrowings = read_from_db(query)
@@ -187,14 +203,17 @@ def return_book():
             flash("Book returned successfully!", "success")
         elif action == "extend":
             query = """
-                select return_date
+                select return_date, extend
                 from project.loans
                 where loan_id = %s and user_id = %s
             """
             result = read_from_db(query, params=(loan_id, user_id))
             if result:
                 return_date = result[0]['return_date']
-                if return_date:
+                extend_nr = result[0]['extend']
+                if extend_nr == 1:
+                    flash(f"Mesaj", "success")
+                elif return_date:
                     if isinstance(return_date, datetime):
                         return_date = return_date.date()
                     today = datetime.today().date()
@@ -203,7 +222,7 @@ def return_book():
                         new_return_date = return_date + timedelta(days=10)
                         update_query = """
                             update project.loans
-                            set return_date = %s
+                            set return_date = %s, extend = 1
                             where loan_id = %s AND user_id = %s
                         """
                         write_to_db(update_query, params=(new_return_date, loan_id, user_id))
@@ -222,3 +241,5 @@ def return_book():
     """
     borrowings = read_from_db(query, params=(user_id,))
     return render_template("return_book.html", borrowings=borrowings)
+
+
