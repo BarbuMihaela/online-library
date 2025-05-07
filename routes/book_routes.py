@@ -92,7 +92,7 @@ def view_books():
         elif selected_pages == 4:
             query += " where b.page_count >= 400 AND b.page_count < 500"
         elif selected_pages == 5:
-            query += " WHERE b.page_count >= 500"
+            query += " where b.page_count >= 500"
 
     books = read_from_db(query)
     return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
@@ -100,14 +100,30 @@ def view_books():
 
 @app.route("/user_view_books")
 def user_view_books():
+    selected_pages = request.args.get("page_count")
     query = """
         select b.title, b.description, b.page_count, a.full_name as author, g.genre_name as genre
         from project.books b
         join project.authors a on b.author_id = a.author_id
         join project.genres g on b.genre_id = g.genre_id
     """
+
+    if selected_pages and selected_pages.isdigit():
+        selected_pages = int(selected_pages)
+        if selected_pages == 1:
+            query += " where b.page_count < 200"
+        elif selected_pages == 2:
+            query += " where b.page_count >= 200 AND b.page_count < 300"
+        elif selected_pages == 3:
+            query += " where b.page_count >= 300 AND b.page_count < 400"
+        elif selected_pages == 4:
+            query += " where b.page_count >= 400 AND b.page_count < 500"
+        elif selected_pages == 5:
+            query += " where b.page_count >= 500"
+
     books = read_from_db(query)
-    return render_template("user_view_books.html", books=books)
+    return render_template("user_view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
+
 
 @app.route("/remove_book", methods=["GET", "POST"])
 def remove_book():
@@ -132,7 +148,6 @@ def remove_book():
 
 @app.route("/borrow_book", methods=["GET", "POST"])
 def borrow_book():
-
     user_id = session['user_id']
     load_date = datetime.now()
     return_date = load_date + timedelta(days=30)
@@ -152,6 +167,7 @@ def borrow_book():
             try:
                 connection = psycopg2.connect(**database_config)
                 cursor = connection.cursor()
+
                 q1 = """select *  from project.loans where book_id = %s and user_id = %s"""
                 book = read_from_db(q1, params=(book_id_to_borrow, session['user_id']))
                 if book:
@@ -212,7 +228,7 @@ def return_book():
                 return_date = result[0]['return_date']
                 extend_nr = result[0]['extend']
                 if extend_nr == 1:
-                    flash(f"Mesaj", "success")
+                    flash(f"You have already extended the return date once. Further extensions are not allowed.", "success")
                 elif return_date:
                     if isinstance(return_date, datetime):
                         return_date = return_date.date()

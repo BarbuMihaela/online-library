@@ -16,7 +16,7 @@ def web_login():
             passwd = request.form['password']
 
             query = read_from_db(f"""
-                SELECT user_id, username, password, is_admin
+                SELECT user_id, username, full_name, password, is_admin
                 FROM project.users
                 WHERE username = '{user}' AND password = '{passwd}'
             """)
@@ -26,6 +26,7 @@ def web_login():
             else:
                 session['user_id'] = query[0]['user_id']
                 session['username'] = user
+                session['full_name'] = query[0]['full_name']
                 session['is_admin'] = query[0]['is_admin']
                 if session['is_admin'] == "Da":
                     return redirect(url_for("web_home"))

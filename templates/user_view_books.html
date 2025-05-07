@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>All Available Books</h1>
+        <h1>Library Books</h1>
         <a href="{{ url_for('web_home_users') }}">
             <button class="admin-btn">Back to User Page</button>
         </a>
@@ -21,7 +21,20 @@
                     <tr>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Pages</th>
+                        <th>
+                            <form action="{{ url_for('user_view_books') }}" method="GET">
+                                <label for="page_count">Pages</label>
+                                <select name="page_count" id="page_count" onchange="this.form.submit()">
+                                    <option value="" disabled selected>Filter by pages</option>
+                                     <option value="0" {% if selected_page =='0' %}selected{% endif %}>All Books</option>
+                                    <option value="1" {% if selected_page =='1' %}selected{% endif %}>&lt; 200</option>
+                                    <option value="2" {% if selected_page =='2' %}selected{% endif %}>200 - 299</option>
+                                    <option value="3" {% if selected_page =='3' %}selected{% endif %}>300 - 399</option>
+                                    <option value="4" {% if selected_page =='4' %}selected{% endif %}>400 - 499</option>
+                                    <option value="5" {% if selected_page =='5' %}selected{% endif %}>&ge; 500</option>
+                                </select>
+                            </form>
+                        </th>
                         <th>Author</th>
                         <th>Genre</th>
                     </tr>
