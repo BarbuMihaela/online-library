@@ -1,9 +1,13 @@
 /* Resetare margini și padding pentru body și html */
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: 'Georgia', serif;
-    background-color: #f4f4f4; /* Fundal deschis, neutru */
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("../img/menu.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
 }
 
 /* Header-ul paginii */
@@ -14,6 +18,7 @@ body, html {
     text-align: center;
     position: relative;
     z-index: 100;
+    border-radius: 15px;
 }
 
 /* Titlul de bun venit */
@@ -26,7 +31,7 @@ body, html {
 
 /* Butonul de logout */
 #logout-btn {
-    position: absolute;
+    position: center;
     top: 20px;
     right: 20px;
     background-color: #6f4e37;

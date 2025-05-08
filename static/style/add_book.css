@@ -1,8 +1,11 @@
 /* Fundal general cald și șters */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f8f5f2; /* bej deschis */
-    color: #4e3b2e; /* maro închis */
+    background-image: url("../img/all7.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
     line-height: 1.6;
     padding: 20px;
 }
@@ -11,7 +14,7 @@ body {
 header {
     text-align: center;
     background-color: #8b5e3c; /* maro cald */
-    padding: 20px;
+    padding: 10px;
     color: white;
     border-radius: 8px;
     margin-bottom: 30px;
@@ -42,13 +45,17 @@ header h1 {
 
 /* Container formular */
 .form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #fff8f2; /* crem foarte deschis */
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: 90px;
+    background-color: rgba(255, 248, 242, 0.9); /* crem translucid */
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    display: block;
 }
+
 
 /* Etichete formular */
 .form-container label {

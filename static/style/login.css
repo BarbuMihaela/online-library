@@ -4,26 +4,33 @@ body, html {
     margin: 0;
     font-family: 'Georgia', serif;
     background-color: #f4f4f4; /* Fundal deschis, neutru */
+    background-image: url("../img/login.jpg"); /* Calea către imaginea de fundal */
+    background-size: cover; /* Acoperă întreaga fereastră */
+    background-position: center center; /* Centrează imaginea */
+    background-attachment: fixed; /* Imaginea nu se mișcă la scroll */
 }
 
-/* Containerul pentru login */
+/* Containerul pentru login - Pergament */
 .container {
-    background-color: rgba(255, 255, 255, 0.9); /* Fundal alb translucid pentru un contrast bun */
+    background-color: rgba(255, 255, 255, 0.85); /* Fundal alb translucid pentru contrast */
     padding: 40px;
     border-radius: 12px;
     text-align: center;
     max-width: 600px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Umbră subtilă pentru a ieși în evidență */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Umbră subtilă pentru a ieși în evidență */
     margin: 100px auto; /* Centrăm containerul pe pagină */
+
 }
 
 /* Titlul principal al paginii */
 .container h1 {
     font-size: 3rem;
-    color: #3e3e3e;
+    color: #5c3a21; /* Nuanță maro închis pentru un efect vintage */
     margin-bottom: 20px;
     font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 3px; /* Spălăm literele pentru a da un efect de vechime */
+    font-family: 'Georgia', serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Umbră subtile pentru titlu */
 }
 
 /* Descrierea sub titlu */
@@ -45,10 +52,11 @@ form {
 input[type="text"], input[type="password"] {
     padding: 12px;
     font-size: 1.1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #c18e44; /* Margine de culoare caldă */
     border-radius: 6px;
     background-color: #f9f9f9;
     color: #333;
+    background-size: cover;
 }
 
 /* Butonul de login cu efect de hover */
@@ -62,6 +70,7 @@ input[type="text"], input[type="password"] {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Umbră subtile pe buton */
 }
 
 #loginButton:hover {
@@ -70,7 +79,7 @@ input[type="text"], input[type="password"] {
 
 /* Butonul pentru crearea unui cont */
 button[type="button"] {
-    background-color: #4b3f72; /* Culoare elegantă, în ton cu tema */
+    background-color: #d1c2a2; /* Nuanță de bej elegant, subtilă */
     color: white;
     padding: 12px 24px;
     font-size: 1rem;
@@ -79,6 +88,14 @@ button[type="button"] {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Umbră subtilă pe buton */
+}
+
+/* Efect la hover - schimbarea culorii pentru un efect vizual */
+button[type="button"]:hover {
+    background-color: #b8a87b; /* Nuanță de bej mai închisă pentru hover */
+}
+
 }
 
 button[type="button"]:hover {
