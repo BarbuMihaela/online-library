@@ -1,11 +1,13 @@
 /* Resetare margini și padding pentru body și html */
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: 'Georgia', serif;
-    position: relative;
-    background-color: #f4f4f4; /* Fundal deschis */
-}
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("../img/all7.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
 
 /* Fundal cu imaginea și efect de zoom */
 .animated-background {
@@ -33,10 +35,12 @@ body, html {
 
 /* Header */
 header {
-    background-color: #8b5e3c; /* Maro cald */
-    padding: 20px;
     text-align: center;
+    background-color: #8b5e3c; /* maro cald */
+    padding: 10px;
     color: white;
+    border-radius: 20px; /* colțuri ușor rotunjite */
+    margin-bottom: 30px;
 }
 
 /* Titlu header */
@@ -67,9 +71,11 @@ header h1 {
 .form-container {
     width: 90%;
     max-width: 600px;
-    margin: 50px auto;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: 40px; /* ajustează distanța față de marginea dreaptă */
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.85); /* Fundal alb translucid */
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 12px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }

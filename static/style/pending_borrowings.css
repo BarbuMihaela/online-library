@@ -1,11 +1,13 @@
 /* Body */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #f4f7f6, #f0e1d2); /* Fundal deschis cu un gradient subtil */
-    margin: 0;
-    padding: 0;
-    color: #333; /* Culoare text mai ușor de citit */
-}
+    background-image: url("../img/all5.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
 
 /* Header */
 header {
@@ -14,8 +16,8 @@ header {
     text-align: center;
     color: white;
     border-bottom: 3px solid #6f4e37; /* Adăugat o margine subtile */
+    border-radius: 10px; /* Colțuri rotunjite */
 }
-
 /* Butonul Admin */
 .admin-btn {
     background-color: #6f4e37; /* Culoare maro caldă pentru buton */
@@ -57,23 +59,22 @@ main {
     font-size: 1em;
     text-align: center; /* Centrat textul în tabel */
 }
-
 .borrowings-table th {
-    background-color: #61c0bf; /* Albastru deschis pentru antetul tabelului */
+    background-color: #8b5e3c; /* Maro cald pentru antetul tabelului */
     color: white;
 }
 
 .borrowings-table tr:nth-child(even) {
-    background-color: #d1f5e0; /* Culoare deschisă pentru rândurile pare */
+    background-color: #f3e5d8; /* Bej deschis pentru rândurile pare */
 }
 
 .borrowings-table tr:nth-child(odd) {
-    background-color: #f4f7f6; /* Culoare de fundal ușor diferită pentru rândurile impare */
+    background-color: #fef9f4; /* Bej foarte deschis pentru rândurile impare */
 }
 
 .borrowings-table td {
-    font-size: 1rem; /* Ajustează fontul pentru o mai bună lizibilitate */
-}
+    font-size: 1rem;
+    color: #3e2c1e; /* Maro închis pentru text */
 
 /* Stil pentru mesaje de succes și eroare (pentru alertă) */
 .flash-message {

@@ -63,21 +63,19 @@ def add_member():
             flash("Please fill in all fields.", "error")
             return render_template("add_member.html", username=username)
 
-        check_query = "select * from project.users where username = %s"
-        existing_user = read_from_db(check_query, params=(username,))
-        if existing_user:
+        elif read_from_db("select * from project.users WHERE username = %s", params=(username,)):
             flash("Username already exists. Please choose another one.", "error")
             return render_template("add_member.html", username=username)
 
-        if username.isnumeric():
+        elif username.isnumeric():
             flash("Username cannot contain only numbers.", "error")
             return render_template("add_member.html", username=username)
 
-        if password != confirm_password:
+        elif password != confirm_password:
             flash("Passwords do not match.", "error")
             return render_template("add_member.html", username=username)
 
-        if len(password) < 6:
+        elif len(password) < 6:
             flash("Password must be at least 6 characters long.", "error")
             return render_template("add_member.html", username=username)
 
@@ -98,7 +96,9 @@ def add_member():
             print(f"Error: {e}")
             flash("An error occurred while adding the user.", "error")
             return render_template("add_member.html", username=username)
+
     return render_template("add_member.html")
+
 
 
 @app.route("/pending_borrowings")

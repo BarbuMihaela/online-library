@@ -16,7 +16,6 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: sepia(0.5); /* Dă un aspect vintage */
     position: relative;
     overflow: hidden;
 }

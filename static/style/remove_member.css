@@ -1,10 +1,13 @@
 /* Resetare margini și padding pentru body și html */
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: 'Georgia', serif;
-    background-color: #f4f4f4; /* Fundal deschis, neutru */
-}
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("../img/all7.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
 
 /* Header-ul paginii */
 header {
@@ -12,6 +15,7 @@ header {
     color: white;
     padding: 20px;
     text-align: center;
+    border-radius: 15px; /* Colțuri rotunjite */
 }
 
 /* Titlul principal din header */
@@ -59,19 +63,23 @@ a .admin-btn:hover {
 /* Lista de membri */
 .members-list {
     margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-direction: column; /* membri vertical */
+    align-items: flex-end;  /* aliniere spre dreapta */
     gap: 20px;
+    padding-right: 310px; /* spațiu față de marginea din dreapta */
 }
 
-/* Elementul fiecărui membru */
+
 .member-item {
-    background-color: #fff;
-    padding: 20px;
+    background-color: #fff8f2;
+    padding: 15px;
+    width: 300px; /* mai îngust */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 
 /* Informațiile despre membru */
 .member-info p {

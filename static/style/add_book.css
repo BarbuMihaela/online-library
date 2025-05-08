@@ -1,0 +1,106 @@
+/* Fundal general cald și șters */
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url("../img/all7.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    background-color: #8b5e3c; /* maro cald */
+    padding: 10px;
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.2em;
+}
+
+/* Buton general admin */
+.admin-btn {
+    background-color: #a97458; /* maro cald */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-btn:hover {
+    background-color: #704832; /* maro mai închis */
+    transform: scale(1.05);
+}
+
+/* Container formular */
+.form-container {
+    width: 100%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: 90px;
+    background-color: rgba(255, 248, 242, 0.9); /* crem translucid */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    display: block;
+}
+
+
+/* Etichete formular */
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #5e4033; /* maro mediu */
+}
+
+/* Inputuri, select și textarea */
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+    background-color: #fdfaf7; /* bej foarte pal */
+}
+
+/* Flash messages */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px;
+}
+
+.success {
+    color: #3c2f25;
+    background-color: #e8dacf;
+    padding: 12px;
+    border-left: 5px solid #8b5e3c;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: #5e2c1c;
+    background-color: #f6d3cd;
+    padding: 12px;
+    border-left: 5px solid #a94442;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
