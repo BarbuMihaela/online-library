@@ -107,7 +107,7 @@ def user_view_books():
         from project.books b
         join project.authors a on b.author_id = a.author_id
         join project.genres g on b.genre_id = g.genre_id
-        where b.book_id not in (select book_id from project.loans where status_return = False)        
+        where b.book_id not in (select book_id from project.loans where status_return = False)     
     """
 
     if selected_pages and selected_pages.isdigit():

@@ -18,9 +18,13 @@ function borrowBook(bookId) {
     .then(data => {
         if (data.status === "success") {
             alert(data.message);
-            window.location.href = "/user_view_books";
+
             const bookRow = document.getElementById(`book_id_${bookId}`);
             if (bookRow) bookRow.remove();
+
+            setTimeout(() => {
+                window.location.href = "/user_view_books";
+            }, 1500);
         } else {
             alert(data.message || "Error borrowing this book.");
         }

@@ -34,7 +34,7 @@ def all_books_history(user_id: int, db_conf: dict = database_config) -> list:
         with ps.connect(**db_conf) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
-                           select b.title, a.full_name as author,g.genre_name as genre,l.loan_date,l.return_date
+                           select distinct b.title, a.full_name as author,g.genre_name as genre,l.loan_date,l.return_date
                            from project.loans l
                            join project.books b on l.book_id = b.book_id
                            join project.authors a on b.author_id = a.author_id

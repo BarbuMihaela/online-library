@@ -54,7 +54,6 @@ def home():
     return render_template("login.html")
 
 
-import re
 
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():
@@ -72,7 +71,7 @@ def register_user():
         elif username.isnumeric():
             error = "Username cannot contain only numbers."
         elif len(password) < 6 or not any(c.isupper() for c in password) or not any(c in "!@_%&" for c in password):
-            error = "Password must be at least 6 characters long,\n must contain at least one uppercase letter,\nmust contain at least one special character (!@_%&)."
+            error = "Password must be at least 6 characters long, with one uppercase letter and one special character (!@_%&)."
         elif password != confirm_password:
             error = "Passwords do not match."
         else:
