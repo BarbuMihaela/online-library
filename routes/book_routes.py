@@ -78,7 +78,7 @@ def view_books():
         SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
         FROM project.books b
         JOIN project.authors a ON b.author_id = a.author_id
-        JOIN project.genres g ON b.genre_id = g.genre_id
+        JOIN project.genres g ON b.genre_id = g.
         where b.book_id not in (select book_id from project.loans where status_return = False)
     """
 
@@ -107,7 +107,7 @@ def user_view_books():
         from project.books b
         join project.authors a on b.author_id = a.author_id
         join project.genres g on b.genre_id = g.genre_id
-        where b.book_id not in (select book_id from project.loans where status_return = False)        
+         where b.book_id not in (select book_id from project.loans where status_return = False)     
     """
 
     if selected_pages and selected_pages.isdigit():

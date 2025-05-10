@@ -110,7 +110,21 @@ main p {
     text-align: center;
     margin-top: 20px;
 }
+.borrow-btn {
+    background-color: #a9745a;       /* Maro cald, mai deschis */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
 
+.borrow-btn:hover {
+    background-color: #8b5e3c;       /* Se potrivește cu header-ul */
+}
 /* Media Queries pentru dispozitive mobile */
 @media screen and (max-width: 768px) {
     header h1 {

@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all5.jpg");
@@ -11,11 +10,11 @@ body {
 }
 
 header {
-    background-color: #8b5e3c; /* Maro cald pentru header */
+    background-color: #8b5e3c;
     color: white;
     padding: 20px;
     text-align: center;
-    border-radius: 10px; /* Colțuri rotunjite */
+    border-radius: 10px;
 }
 
 header h1 {
@@ -25,12 +24,11 @@ header h1 {
     letter-spacing: 2px;
 }
 
-
 .top-button {
     display: flex;
-    justify-content: center;  /* Centrează orizontal */
-    align-items: center;      /* Centrează vertical */
-    height: 100%;             /* Opțional, dacă vrei ca butonul să fie centrat în interiorul unui container mai mare */
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .top-button a button {
@@ -44,7 +42,11 @@ header h1 {
     transition: background-color 0.3s ease;
     font-weight: bold;
 }
-/
+
+ul {
+    list-style-type: none;
+}
+
 .message {
     padding: 12px;
     background-color: #28a745;
