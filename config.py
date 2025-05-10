@@ -29,7 +29,24 @@ def read_from_db(query: str,db_conf: dict = database_config, params = ()) -> lis
         print(f"Failed to get data {e}")
         return [f"error: message {e}"]
 
-
+def all_books_history(user_id: int, db_conf: dict = database_config) -> list:
+    try:
+        with ps.connect(**db_conf) as conn:
+            with conn.cursor() as cursor:
+                cursor.execute("""
+                           select b.title, a.full_name as author,g.genre_name as genre,l.loan_date,l.return_date
+                           from project.loans l
+                           join project.books b on l.book_id = b.book_id
+                           join project.authors a on b.author_id = a.author_id
+                           join project.genres g on b.genre_id = g.genre_id
+                           where l.user_id = %s
+                           order by l.return_date DESC
+                       """, (user_id,))
+                response = cursor.fetchall()
+                return response
+    except Exception as e:
+        print(f"Failed to get data {e}")
+        return [f"error: message {e}"]
 
 def write_to_db(query: str, db_conf: dict = database_config, params=()) -> None:
     try:

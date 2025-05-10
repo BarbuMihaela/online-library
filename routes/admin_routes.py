@@ -27,13 +27,13 @@ def remove_member():
                     select b.title, l.return_date
                     from project.loans l
                     join project.books b on l.book_id = b.book_id
-                    where l.user_id = %s and l.return_date IS NULL
+                    where l.user_id = %s
                     """, (remove_member_id,))
                 loaned_books = cursor.fetchall()
                 if loaned_books:
                     book_title = loaned_books[0][0]
                     message = f"The member cannot be removed. They have borrowed the book '{book_title}' which must be returned first."
-                    return jsonify({"success": False, "message": message})
+                    return jsonify({"success": False, "message": message}), 400
 
                 cursor.execute("delete from project.users where user_id = %s", (remove_member_id,))
                 connection.commit()
@@ -108,6 +108,7 @@ def pending_borrowings():
         from project.loans l
         join project.books b on b.book_id = l.book_id
         join project.users u on u.user_id = l.user_id
+        where l.status_return = False 
         order by l.return_date asc
     """
     borrowings = read_from_db(query)

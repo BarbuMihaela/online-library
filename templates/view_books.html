@@ -36,6 +36,7 @@
                         </th>
                         <th>Author</th>
                         <th>Genre</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,8 @@
                         <td>{{ book.page_count }}</td>
                         <td>{{ book.author }}</td>
                         <td>{{ book.genre }}</td>
+                        <td> <button type="button" name="book_id" value="{{ book.book_id }}" class="remove-btn"
+                            onclick="removeBook({{ book.book_id }})">Remove</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -54,5 +57,6 @@
             <p class="no-books">No books found in the library.</p>
         {% endif %}
     </main>
+<script src="{{ url_for('static', filename='js/remove_book.js') }}"></script>
 </body>
 </html>

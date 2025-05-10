@@ -2,12 +2,16 @@
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all7.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: cover; /* Imaginea acoperă întregul ecran */
     background-position: center;
+    background-attachment: fixed; /* Imaginea rămâne fixă pe fundal */
+    background-repeat: no-repeat;
     color: #333;
     line-height: 1.6;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh; /* Asigură că întregul ecran este acoperit */
+}
 
 /* Header-ul paginii */
 header {
@@ -16,6 +20,7 @@ header {
     padding: 20px;
     text-align: center;
     border-radius: 15px; /* Colțuri rotunjite */
+    margin-bottom: 20px; /* Adăugăm un mic spațiu sub header */
 }
 
 /* Titlul principal din header */
@@ -47,6 +52,10 @@ a .admin-btn:hover {
 .admin-info {
     margin-top: 30px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 /* Mesajele flash */
@@ -63,23 +72,25 @@ a .admin-btn:hover {
 /* Lista de membri */
 .members-list {
     margin-top: 30px;
-    display: flex;
-    flex-direction: column; /* membri vertical */
-    align-items: flex-end;  /* aliniere spre dreapta */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Două coloane */
     gap: 20px;
-    padding-right: 310px; /* spațiu față de marginea din dreapta */
+    justify-items: center; /* Aliniază elementele pe mijloc */
+    padding: 0 20px;
+    max-width: 90%; /* Asigură că lista nu iese din cadrul ecranului */
+    margin-left: auto;
+    margin-right: auto;
 }
 
-
+/* Elementul pentru fiecare membru */
 .member-item {
     background-color: #fff8f2;
     padding: 15px;
-    width: 300px; /* mai îngust */
+    width: 250px; /* Carduri mai înguste */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
-
 
 /* Informațiile despre membru */
 .member-info p {
@@ -107,10 +118,10 @@ a .admin-btn:hover {
 
 /* Mesaj de eroare în cazul unei acțiuni nereușite */
 #error_msg {
-    color: red;
+    color: black;
     font-size: 1.2rem;
     margin-top: 20px;
-    display: none;
+    display: block;
 }
 
 /* În cazul în care nu sunt membri de eliminat */
@@ -130,4 +141,52 @@ a .admin-btn:hover {
 /* Efect pentru butonul de eliminare */
 .remove-btn:active {
     transform: scale(0.98);
+}
+
+/* Mesaje de succes și eroare */
+.message-box {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    display: block;
+}
+
+.success-msg {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-msg {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Plasarea mesajelor la baza paginii */
+.flash-messages-container {
+    position: fixed;
+    bottom: 20px; /* Mesajele vor apărea în partea de jos a ecranului */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px; /* Lățimea maximă a mesajului */
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+/* Media query pentru dispozitive mai mici */
+@media (max-width: 768px) {
+    .members-list {
+        grid-template-columns: 1fr; /* O coloană pe ecrane mici */
+    }
+
+    .message-box {
+        font-size: 1rem; /* Micșorăm dimensiunea fontului pe ecrane mici */
+    }
+
+    .flash-messages-container {
+        width: 95%; /* Lățime mai mare pentru dispozitivele mici */
+    }
 }

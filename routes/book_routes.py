@@ -1,7 +1,7 @@
 
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
 from flask_smorest import abort
-from config import read_from_db, database_config, write_to_db
+from config import read_from_db, database_config, write_to_db, all_books_history
 from flask_restful import abort
 import psycopg2
 from datetime import datetime, timedelta
@@ -75,10 +75,11 @@ def add_book():
 def view_books():
     selected_pages = request.args.get("page_count")
     query = """
-        SELECT b.title, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
+        SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
         FROM project.books b
         JOIN project.authors a ON b.author_id = a.author_id
         JOIN project.genres g ON b.genre_id = g.genre_id
+        where b.book_id not in (select book_id from project.loans where status_return = False)
     """
 
     if selected_pages and selected_pages.isdigit():
@@ -102,10 +103,11 @@ def view_books():
 def user_view_books():
     selected_pages = request.args.get("page_count")
     query = """
-        select b.title, b.description, b.page_count, a.full_name as author, g.genre_name as genre
+        select b.title,b.book_id, b.description, b.page_count, a.full_name as author, g.genre_name as genre
         from project.books b
         join project.authors a on b.author_id = a.author_id
         join project.genres g on b.genre_id = g.genre_id
+        where b.book_id not in (select book_id from project.loans where status_return = False)        
     """
 
     if selected_pages and selected_pages.isdigit():
@@ -125,66 +127,83 @@ def user_view_books():
     return render_template("user_view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
 
 
-@app.route("/remove_book", methods=["GET", "POST"])
+@app.route("/remove_book", methods=["POST"])
 def remove_book():
-    if request.method == "POST":
-        book_id_to_remove = request.form.get('book_id')
-        if book_id_to_remove:
-            try:
-                connection = psycopg2.connect(**database_config)
-                cursor = connection.cursor()
-                cursor.execute("delete from project.books where book_id = %s", (book_id_to_remove,))
-                connection.commit()
-                flash("Book removed successfully!", "success")
-            except Exception as e:
-                flash(f"Error: {str(e)}", "error")
-            finally:
-                cursor.close()
-                connection.close()
-        return redirect(url_for("remove_book"))
+    data = request.get_json()
+    book_id_to_remove = data.get("book_id")
+    print(book_id_to_remove)
+    if book_id_to_remove:
+        try:
+            connection = psycopg2.connect(**database_config)
+            cursor = connection.cursor()
+            cursor.execute("delete from project.books where book_id = %s", (book_id_to_remove,))
+            connection.commit()
+            flash("Book removed successfully!", "success")
+        except Exception as e:
+            flash(f"Error: {str(e)}", "error")
+        finally:
+            cursor.close()
+            connection.close()
+    return redirect(url_for("view_books"))
 
-    books = read_from_db("select book_id, title from project.books")
-    return render_template("remove_book.html", books=books)
 
-@app.route("/borrow_book", methods=["GET", "POST"])
+@app.route("/borrow_book", methods=["POST"])
 def borrow_book():
     user_id = session['user_id']
     load_date = datetime.now()
     return_date = load_date + timedelta(days=30)
-    query = """
-            select b.book_id, b.title, b.description, b.page_count, a.full_name as author, g.genre_name as genre
-            from project.books b
-            join project.authors a on b.author_id = a.author_id
-            join project.genres g on b.genre_id = g.genre_id
-            where b.book_id not in ( select book_id from project.loans)
-        """
-    books = read_from_db(query)
-    print(books)
-    if request.method == "POST":
+    if request.is_json:
         data = request.get_json()
         book_id_to_borrow = data.get("book_id")
-        if book_id_to_borrow:
-            try:
-                connection = psycopg2.connect(**database_config)
-                cursor = connection.cursor()
+    else:
+        return jsonify({"status": "error", "message": "Invalid request format"}), 400
 
-                q1 = """select *  from project.loans where book_id = %s and user_id = %s"""
-                book = read_from_db(q1, params=(book_id_to_borrow, session['user_id']))
-                if book:
-                    return jsonify({"status": "Bad request",
-                                    "user_id": session['user_id'],
-                                    "message": "You have already borrow this book"}),400
-                cursor.execute("insert into project.loans (user_id, book_id, loan_date, return_date, extend) values (%s, %s, %s, %s, %s)",
-                               (user_id, book_id_to_borrow, load_date, return_date, 0))
-                connection.commit()
-                flash("Book borrow successfully!", "success")
-            except Exception as e:
-                flash(f"Error: {str(e)}", "error")
-            finally:
-                cursor.close()
-                connection.close()
-        return redirect(url_for("borrow_book"))
-    return render_template("borrow_book.html", books=books)
+    connection = psycopg2.connect(**database_config)
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute("""
+            select borrowed_books_count
+            from project.users
+            where user_id = %s
+        """, (user_id,))
+        borrowed_count = cursor.fetchone()[0]
+
+        if borrowed_count >= 2:
+            return jsonify({
+                "status": "error",
+                "message": "You can't borrow more than 2 books at a time."
+            }), 400
+
+        cursor.execute("""
+            insert into project.loans (user_id, book_id, loan_date, return_date, extend, status_return)
+            values (%s, %s, %s, %s, %s, %s)
+        """, (user_id, book_id_to_borrow, load_date, return_date, 0, False))
+
+        cursor.execute("""
+            update project.users
+            set borrowed_books_count = borrowed_books_count + 1
+            where user_id = %s
+        """, (user_id,))
+
+        connection.commit()
+
+        return jsonify({
+            "status": "success",
+            "message": "Book borrowed successfully!"
+        })
+
+    except Exception as e:
+        connection.rollback()
+        return jsonify({
+            "status": "error",
+            "message": f"Error borrowing book: {str(e)}"
+        }), 500
+
+    finally:
+        cursor.close()
+        connection.close()
+
 
 
 @app.route("/pending_books")
@@ -194,7 +213,7 @@ def pending_books():
         from project.loans l
         join project.books b on b.book_id = l.book_id
         join project.authors a on a.author_id = b.author_id
-        where l.return_date >= date(now())
+        where l.return_date >= date(now()) and l.status_return = False
         order by l.return_date ASC
     """
     borrowings = read_from_db(query)
@@ -209,14 +228,29 @@ def return_book():
     if request.method == "POST":
         loan_id = request.form.get("loan_id")
         action = request.form.get("action")
-
         if action == "return":
-            query = """
-                delete from project.loans
-                where loan_id = %s and user_id = %s
-            """
-            write_to_db(query, params=(loan_id, user_id))
-            flash("Book returned successfully!", "success")
+            try:
+                connection = psycopg2.connect(**database_config)
+                cursor = connection.cursor()
+                cursor.execute("""
+                    update project.loans
+                    set status_return = True, return_date = CURRENT_DATE
+                    where loan_id = %s and user_id = %s
+                """, (loan_id, user_id))
+                cursor.execute("""
+                    update project.users
+                    set borrowed_books_count = borrowed_books_count - 1
+                    where user_id = %s and borrowed_books_count > 0
+                """, (user_id,))
+                connection.commit()
+                flash("Book returned successfully!", "success")
+
+            except Exception as e:
+                flash(f"Error returning book: {str(e)}", "error")
+
+            finally:
+                cursor.close()
+                connection.close()
         elif action == "extend":
             query = """
                 select return_date, extend
@@ -252,10 +286,16 @@ def return_book():
         from project.loans l
         join project.books b ON b.book_id = l.book_id
         join project.authors a ON b.author_id = a.author_id
-        where l.user_id = %s
+        where l.user_id = %s and l.status_return = False
         order by l.loan_date ASC
     """
     borrowings = read_from_db(query, params=(user_id,))
     return render_template("return_book.html", borrowings=borrowings)
 
 
+@app.route("/user_borrow_history")
+def user_borrow_history():
+    user_id = session['user_id']
+    history_data = all_books_history(user_id)
+
+    return render_template("user_borrow_history.html", history=history_data)

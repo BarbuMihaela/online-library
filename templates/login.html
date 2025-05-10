@@ -8,6 +8,13 @@
 <body>
     <div class="container">
         <h1>Login</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+            <div class="{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+    {% endwith %}
         <form id="loginForm" action="/login" method="post">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br>
@@ -24,7 +31,6 @@
 
         </form>
     </div>
-
 </body>
 </html>
 

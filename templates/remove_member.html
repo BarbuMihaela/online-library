@@ -25,24 +25,23 @@
             {% endif %}
         {% endwith %}
 
-        {% if users %}
-        <div class = "disable" id = "error_msg">
+        <!-- Mesaj de eroare/succes -->
+        <div id="error_msg" class="message-box"></div>
 
-        </div>
-            <h2>List of Members</h2>
-                <div class="members-list">
-                    {% for user in users %}
-                        <div class="member-item" id="user_id_{{ user.user_id }}">
-                            <div class="member-info">
-                                <p>{{ user.full_name }}</p>
-                            </div>
-                            <div class="remove-action">
-                                <button type="button" name="user_id" value="{{ user.user_id }}" class="remove-btn"
-                                onclick="removeMember({{ user.user_id }})">Remove</button>
-                            </div>
+        {% if users %}
+            <div class="members-list">
+                {% for user in users %}
+                    <div class="member-item" id="user_id_{{ user.user_id }}">
+                        <div class="member-info">
+                            <p>{{ user.full_name }}</p>
                         </div>
-                    {% endfor %}
-                </div>
+                        <div class="remove-action">
+                            <button type="button" name="user_id" value="{{ user.user_id }}" class="remove-btn"
+                                onclick="removeMember({{ user.user_id }})">Remove</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
             <p>No members found to remove.</p>
         {% endif %}
