@@ -37,6 +37,7 @@
                         </th>
                         <th>Author</th>
                         <th>Genre</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,6 +48,11 @@
                         <td>{{ book.page_count }}</td>
                         <td>{{ book.author }}</td>
                         <td>{{ book.genre }}</td>
+                        <td>
+                        <button type="button" class="borrow-btn" onclick="borrowBook({{ book.book_id }})">
+                            Borrow
+                        </button>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -55,5 +61,6 @@
             <p>No books available.</p>
         {% endif %}
     </main>
+    <script src="{{ url_for('static', filename='js/borrow_book.js') }}"></script>
 </body>
 </html>

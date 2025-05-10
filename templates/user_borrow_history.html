@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Borrowing History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/user_borrow_history.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Your Borrowing History</h1>
+        <a href="{{ url_for('web_home_users') }}">
+            <button class="admin-btn">Back to User Page</button>
+        </a>
+        </header>
+
+    {% if history %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Loan Date</th>
+            <th>Return Date</th>
+        </tr>
+        {% for row in history %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3].strftime('%Y-%m-%d') }}</td>
+            <td>
+                {% if row[4] %}
+                    {{ row[4].strftime('%Y-%m-%d') }}
+                {% else %}
+                    Not returned
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No borrowing history found.</p>
+    {% endif %}
+
+</body>
+</html>

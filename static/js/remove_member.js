@@ -8,22 +8,19 @@ function removeMember(userId) {
         },
         body: JSON.stringify({ user_id: userId })
     })
-    .then(response => {
+    .then(response => response.json().then(data => {
         const msgDiv = document.getElementById("error_msg");
-        if (response.ok) {
-            return response.json().then(data => {
-                msgDiv.className = "success-msg";
-                msgDiv.innerText = data.message || "User removed successfully.";
-                const userItem = document.getElementById(`user_id_${userId}`);
-                if (userItem) userItem.remove();
-            });
+        if (response.ok && data.success) {
+            msgDiv.className = "success-msg";
+            msgDiv.innerText = data.message || "User removed successfully.";
+
+            const userItem = document.getElementById(`user_id_${userId}`);
+            if (userItem) userItem.remove();
         } else {
-            return response.json().then(data => {
-                msgDiv.className = "error-msg";
-                msgDiv.innerText = data.message || "Error removing user.";
-            });
+            msgDiv.className = "error-msg";
+            msgDiv.innerText = data.message || "Error removing user.";
         }
-    })
+    }))
     .catch(error => {
         const msgDiv = document.getElementById("error_msg");
         msgDiv.className = "error-msg";

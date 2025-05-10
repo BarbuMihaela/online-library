@@ -1,3 +1,4 @@
+from dbm import error
 
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
 from flask_smorest import abort
@@ -22,7 +23,7 @@ def web_login():
             """)
 
             if not query or isinstance(query[0], str):
-                return redirect(url_for("register_user", username=user))
+                flash("You don't have an account, please register.", "Error")
             else:
                 session['user_id'] = query[0]['user_id']
                 session['username'] = user
@@ -53,34 +54,36 @@ def home():
     return render_template("login.html")
 
 
+import re
+
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():
     if request.method == "POST":
-        full_name = request.form['full_name']
+        full_name = " ".join(request.form['full_name'].split()).title()
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
+
         check_query = "select * from project.users where username = %s"
         existing_user = read_from_db(check_query, params=(username,))
+
         if existing_user:
             error = "Username already exists. Please choose another one."
-            return render_template("register_user.html", error=error, username=username)
-        if username.isnumeric():
+        elif username.isnumeric():
             error = "Username cannot contain only numbers."
-            return render_template("register_user.html", error=error, username=username)
-        if password != confirm_password:
+        elif len(password) < 6 or not any(c.isupper() for c in password) or not any(c in "!@_%&" for c in password):
+            error = "Password must be at least 6 characters long,\n must contain at least one uppercase letter,\nmust contain at least one special character (!@_%&)."
+        elif password != confirm_password:
             error = "Passwords do not match."
-            return render_template("register_user.html", error=error, username=username)
-        if len(password) < 6:
-            error = "Password must be at least 6 characters long."
-            return render_template("register_user.html", error=error, username=username)
+        else:
+            insert_query = """
+                insert into project.users (full_name, username, password, is_admin)
+                values (%s, %s, %s, 'Nu')
+            """
+            write_to_db(insert_query, params=(full_name, username, password))
+            return redirect(url_for("web_login"))
 
-        insert_query = """
-            insert into project.users (full_name, username, password, is_admin)
-            values (%s, %s, %s, 'Nu')
-        """
-        write_to_db(insert_query, params=(full_name, username, password))
-        return redirect(url_for("web_login"))
+        return render_template("register_user.html", error=error, username=username)
+
     return render_template("register_user.html")
-
 
