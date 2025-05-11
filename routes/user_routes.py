@@ -10,6 +10,11 @@ from flask_api import app
 
 @app.route("/home_user")
 def web_home_users():
+    """
+     Renders the user home page.
+
+    :return:Renders the "user.html" template to display the user home page.
+    """
     return render_template("user.html")
 
 

@@ -47,21 +47,21 @@ ul {
     list-style-type: none;
 }
 
-.message {
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border-radius: 6px;
+/* Mesaje de eroare / atenționare – format unificat */
+.message,
+.no-books,
+.alert,
+.notification,
+.warning {
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;            /* roșu închis */
+    border: 1px solid #ff4d4d;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 5px;
     font-weight: bold;
+    font-family: Arial, sans-serif;
     text-align: center;
-    margin-top: 20px;
-}
-
-.no-books {
-    font-size: 1.2rem;
-    color: #555;
-    text-align: center;
-    margin-top: 20px;
 }
 
 table {

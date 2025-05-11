@@ -11,6 +11,10 @@ from flask_api import app
 
 @app.route("/login", methods=["POST"])
 def web_login():
+    """
+     Endpoint to handle user login.
+    :return:Renders the login page or redirects to the appropriate home page based on login success.
+    """
     try:
         if request.method == "POST":
             user = request.form['username']
@@ -37,26 +41,43 @@ def web_login():
         return render_template("login.html")
 
     except Exception as e:
-        return f"Eroare: {str(e)}"
+        return f"Error: {str(e)}"
 
 @app.route("/logout")
 def logout():
+    """
+    Logs out the user and redirects them to the home page.
+    Clears all session data and redirects the user to the home page
+    :return:Redirects to the home page.
+    """
     session.clear()
     return redirect(url_for("home"))
 
 
 @app.route("/")
 def welcome():
+    """
+    Renders the welcome page.
+    :return:Renders the "welcome.html" template.
+    """
     return render_template("welcome.html")
 
 @app.route("/login")
 def home():
+    """
+     Renders the login page.
+    :return:Renders the "login.html" template.
+    """
     return render_template("login.html")
 
 
 
 @app.route("/register_user", methods=["GET", "POST"])
 def register_user():
+    """
+     This function is responsible for rendering the registration page and processing the registration form.
+    :return:Renders the "register_user.html" template with any validation errors or the registration form.
+    """
     if request.method == "POST":
         full_name = " ".join(request.form['full_name'].split()).title()
         username = request.form['username']
