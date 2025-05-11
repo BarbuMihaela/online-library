@@ -82,8 +82,8 @@ header h1 {
 
 /* Mesaje succes/error */
 .success-message {
-    background-color: #27ae60; /* Verde pentru succes */
-    color: white;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     padding: 10px;
     border-radius: 6px;
     margin-bottom: 20px;

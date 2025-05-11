@@ -15,6 +15,14 @@ def web_home():
 
 @app.route("/remove_member", methods=["GET", "DELETE"])
 def remove_member():
+    """
+    Endpoint to display and remove a member from the database.
+    :return:- For GET requests:
+        - Renders the "remove_member.html" template with the list of non-admin users.
+        - For DELETE requests:
+        - JSON response indicating success or failure.
+        - If the user has borrowed books, returns an error message with status code 400.
+    """
     if request.method == "DELETE":
         data = request.get_json()
         remove_member_id = data.get("user_id")
@@ -32,13 +40,12 @@ def remove_member():
                 loaned_books = cursor.fetchall()
                 if loaned_books:
                     book_title = loaned_books[0][0]
-                    message = f"The member cannot be removed. They have borrowed the book '{book_title}' which must be returned first."
+                    message = "The member cannot be removed because they have active loans and must return the borrowed books first."
                     return jsonify({"success": False, "message": message}), 400
 
                 cursor.execute("delete from project.users where user_id = %s", (remove_member_id,))
                 connection.commit()
                 return jsonify({"success": True, "message": "Member removed successfully."})
-
             except Exception as e:
                 return jsonify({"success": False, "message": f"Error: {str(e)}"})
 
@@ -52,18 +59,20 @@ def remove_member():
 
 @app.route("/add_member", methods=["GET", "POST"])
 def add_member():
+    """
+    Endpoint to add a new member to the system.
+    :return:Renders the form with error messages if validation fails,
+         or redirects back after a successful addition.
+    """
     if request.method == "POST":
-        fullname = request.form['full_name']
+        full_name = " ".join(request.form['full_name'].split()).title()
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form.get('confirm_password')  # nou
         is_admin = request.form['is_admin']
 
-        if not fullname or not username or not password or not confirm_password or not is_admin:
-            flash("Please fill in all fields.", "error")
-            return render_template("add_member.html", username=username)
 
-        elif read_from_db("select * from project.users WHERE username = %s", params=(username,)):
+        if read_from_db("select * from project.users WHERE username = %s", params=(username,)):
             flash("Username already exists. Please choose another one.", "error")
             return render_template("add_member.html", username=username)
 
@@ -71,30 +80,32 @@ def add_member():
             flash("Username cannot contain only numbers.", "error")
             return render_template("add_member.html", username=username)
 
+        elif len(password) < 6 or not any(c.isupper() for c in password) or not any(c in "!@_%&" for c in password):
+            flash("Password must be at least 6 characters long, with one uppercase letter and one special character (!@_%&).",
+                "error")
+            return render_template("add_member.html", username=username)
+
         elif password != confirm_password:
             flash("Passwords do not match.", "error")
             return render_template("add_member.html", username=username)
-
-        elif len(password) < 6:
-            flash("Password must be at least 6 characters long.", "error")
-            return render_template("add_member.html", username=username)
-
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
             cursor.execute(
                 "insert into project.users (full_name, username, password, is_admin) values (%s, %s, %s, %s)",
-                (fullname, username, password, is_admin)
+                (full_name, username, password, is_admin)
             )
             connection.commit()
             flash("User added successfully!", "success")
             cursor.close()
             connection.close()
             return redirect(url_for("add_member"))
-
+        except (ValueError, TypeError) as e:
+            flash(f"Invalid input type or format: {e}", "error")
+            return render_template("add_member.html", username=username)
         except Exception as e:
             print(f"Error: {e}")
-            flash("An error occurred while adding the user.", "error")
+            flash(f"An error occurred while adding the user: {e}.", "error")
             return render_template("add_member.html", username=username)
 
     return render_template("add_member.html")
@@ -103,6 +114,11 @@ def add_member():
 
 @app.route("/pending_borrowings")
 def pending_borrowings():
+    """
+    Endpoint to display a list of books that are currently borrowed and not yet returned.
+    :return:Renders the 'pending_borrowings.html' template with a list of unreturned loans,
+             ordered by the expected return date.
+    """
     query = """
         select u.full_name, b.title, l.loan_date, l.return_date
         from project.loans l

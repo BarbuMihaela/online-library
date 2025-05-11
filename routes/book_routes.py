@@ -22,6 +22,11 @@ def get_book_by_id(book_id):
 
 @app.route("/add_book", methods=["GET", "POST"])
 def add_book():
+    """
+    Endpoint to add a new book to the system.
+    :return: Renders the form with error messages if validation fails,
+             or redirects to the home page after a successful addition.
+    """
     if request.method == "POST":
         title = request.form['title']
         description = request.form['description']
@@ -59,9 +64,11 @@ def add_book():
 
             flash("Book added successfully!", "Success")
             return redirect(url_for("web_home"))
+        except ValueError as e:
+            flash(f"Invalid data type: {e}", "error")
+            return render_template("add_book.html")
         except Exception as e:
-            print(f"Error: {e}")
-            flash("An error occurred while adding the book.", "Error")
+            flash(f"An error occurred while adding the book: {e}", "Error")
             return render_template("add_book.html")
     elif request.method == "GET":
         query = read_from_db("select * from project.genres")
@@ -73,6 +80,11 @@ def add_book():
 
 @app.route("/view_books")
 def view_books():
+    """
+     Endpoint to display a list of books that are available for borrowing.
+    :return:Renders the 'view_books.html' template with a list
+            of available books and the selected page count filter.
+    """
     selected_pages = request.args.get("page_count")
     query = """
         SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
@@ -85,15 +97,15 @@ def view_books():
     if selected_pages and selected_pages.isdigit():
         selected_pages = int(selected_pages)
         if selected_pages == 1:
-            query += " where b.page_count < 200"
+            query += " and b.page_count < 200"
         elif selected_pages == 2:
-            query += " where b.page_count >= 200 AND b.page_count < 300"
+            query += " and b.page_count >= 200 AND b.page_count < 300"
         elif selected_pages == 3:
-            query += " where b.page_count >= 300 AND b.page_count < 400"
+            query += " and b.page_count >= 300 AND b.page_count < 400"
         elif selected_pages == 4:
-            query += " where b.page_count >= 400 AND b.page_count < 500"
+            query += " and b.page_count >= 400 AND b.page_count < 500"
         elif selected_pages == 5:
-            query += " where b.page_count >= 500"
+            query += " and b.page_count >= 500"
 
     books = read_from_db(query)
     return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
@@ -101,6 +113,11 @@ def view_books():
 
 @app.route("/user_view_books")
 def user_view_books():
+    """
+    Endpoint to display a list of books that are available for borrowing.
+    :return: Renders the 'view_books.html' template with a list
+            of available books and the selected page count filter.
+    """
     selected_pages = request.args.get("page_count")
     query = """
         select b.title,b.book_id, b.description, b.page_count, a.full_name as author, g.genre_name as genre
@@ -113,15 +130,15 @@ def user_view_books():
     if selected_pages and selected_pages.isdigit():
         selected_pages = int(selected_pages)
         if selected_pages == 1:
-            query += " where b.page_count < 200"
+            query += " and b.page_count < 200"
         elif selected_pages == 2:
-            query += " where b.page_count >= 200 AND b.page_count < 300"
+            query += " and b.page_count >= 200 AND b.page_count < 300"
         elif selected_pages == 3:
-            query += " where b.page_count >= 300 AND b.page_count < 400"
+            query += " and b.page_count >= 300 AND b.page_count < 400"
         elif selected_pages == 4:
-            query += " where b.page_count >= 400 AND b.page_count < 500"
+            query += " and b.page_count >= 400 AND b.page_count < 500"
         elif selected_pages == 5:
-            query += " where b.page_count >= 500"
+            query += " and b.page_count >= 500"
 
     books = read_from_db(query)
     return render_template("user_view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
@@ -129,6 +146,10 @@ def user_view_books():
 
 @app.route("/remove_book", methods=["POST"])
 def remove_book():
+    """
+    Endpoint to remove a book from the system.
+    :return: Redirects to the 'view_books' page, where the list of books is displayed.
+    """
     data = request.get_json()
     book_id_to_remove = data.get("book_id")
     print(book_id_to_remove)
@@ -149,6 +170,12 @@ def remove_book():
 
 @app.route("/borrow_book", methods=["POST"])
 def borrow_book():
+    """
+    Endpoint to borrow a book from the system.
+    :return:JSON response with the status of the operation:
+             - Success: "Book borrowed successfully!"
+             - Error: If user tries to borrow more than 2 books or if there's any other error.
+    """
     user_id = session['user_id']
     load_date = datetime.now()
     return_date = load_date + timedelta(days=30)
@@ -192,7 +219,12 @@ def borrow_book():
             "status": "success",
             "message": "Book borrowed successfully!"
         })
-
+    except (ValueError, TypeError) as e:
+        connection.rollback()
+        return jsonify({
+            "status": "error",
+            "message": f"Invalid input data: {str(e)}"
+        }), 400
     except Exception as e:
         connection.rollback()
         return jsonify({
@@ -208,6 +240,13 @@ def borrow_book():
 
 @app.route("/pending_books")
 def pending_books():
+    """
+    Endpoint to retrieve and display books that have pending returns.
+    This shows books that have a return date in the future and have not been returned yet.
+    :return: Renders the "pending_books.html" template with a list of pending books (borrowed books
+             that are yet to be returned) and their corresponding details (title, description, author,
+             and return date).
+    """
     query = """
         select b.title, b.description, a.full_name as author_name, l.return_date
         from project.loans l
@@ -224,6 +263,13 @@ def pending_books():
 
 @app.route("/return_book", methods=["GET", "POST"])
 def return_book():
+    """
+    Endpoint to handle book returns or extension requests by a user.
+    :return:
+        - Renders the "return_book.html" template showing the books borrowed by the user
+        - If a book is returned or a loan is extended, it displays the appropriate success message.
+        - If an error occurs, an error message is shown.
+    """
     user_id = session['user_id']
     if request.method == "POST":
         loan_id = request.form.get("loan_id")
@@ -295,6 +341,10 @@ def return_book():
 
 @app.route("/user_borrow_history")
 def user_borrow_history():
+    """
+     Endpoint to display the borrowing history of the current logged-in user.
+    :return:Renders the "user_borrow_history.html" template with the user's borrowing history.
+    """
     user_id = session['user_id']
     history_data = all_books_history(user_id)
 

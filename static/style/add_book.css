@@ -88,8 +88,8 @@ ul {
 }
 
 .success {
-    color: #3c2f25;
-    background-color: #e8dacf;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     padding: 12px;
     border-left: 5px solid #8b5e3c;
     border-radius: 6px;
@@ -97,8 +97,8 @@ ul {
 }
 
 .error {
-    color: #5e2c1c;
-    background-color: #f6d3cd;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     padding: 12px;
     border-left: 5px solid #a94442;
     border-radius: 6px;

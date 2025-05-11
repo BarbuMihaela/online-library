@@ -60,8 +60,8 @@ a .admin-btn:hover {
 
 /* Mesajele flash */
 .flash-messages {
-    background-color: #dff0d8;
-    color: #3c763d;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     padding: 15px;
     margin-top: 20px;
     border-radius: 5px;
@@ -152,14 +152,14 @@ a .admin-btn:hover {
 }
 
 .success-msg {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     border: 1px solid #c3e6cb;
 }
 
 .error-msg {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #ede0de; /* roz deschis */
+    color: #b30000;
     border: 1px solid #f5c6cb;
 }
 
