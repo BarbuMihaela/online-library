@@ -1,4 +1,4 @@
-/* Resetare margini și padding pentru body și html */
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all5.jpg");
@@ -10,18 +10,18 @@ body {
     padding: 20px;
 }
 
-/* Header-ul paginii */
+
 header {
-    background-color: #8b5e3c; /* Ton cald, maro */
+    background-color: #8b5e3c;
     color: white;
     padding: 20px;
     text-align: center;
     position: relative;
     z-index: 100;
-    border-radius: 15px; /* Colțuri rotunjite */
+    border-radius: 15px;
 }
 
-/* Titlul paginii */
+
 header h1 {
     font-size: 2.5rem;
     margin: 0;
@@ -29,7 +29,6 @@ header h1 {
     letter-spacing: 2px;
 }
 
-/* Butonul de întoarcere la pagina utilizatorului */
 .admin-btn {
     position: center;
     top: 20px;
@@ -49,14 +48,14 @@ header h1 {
     background-color: #4e3b2e;
 }
 
-/* Containerul principal al paginii */
+
 main {
     padding: 20px;
     max-width: 1200px;
     margin: 20px auto;
 }
 
-/* Tabelul cu lista de cărți */
+
 .books-table {
     width: 100%;
     border-collapse: collapse;
@@ -66,44 +65,44 @@ main {
     overflow: hidden;
 }
 
-/* Antetul tabelului */
+
 .books-table thead {
     background-color: #8b5e3c;
     color: white;
     font-size: 1.1rem;
 }
 
-/* Celulele antetului */
+
 .books-table th {
     padding: 12px;
     text-align: left;
 }
 
-/* Corpul tabelului */
+
 .books-table tbody tr {
     background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
 
-/* Celulele corpului tabelului */
+
 .books-table td {
     padding: 10px;
     text-align: left;
 }
 
-/* Efect la hover pentru rândurile tabelului */
+
 .books-table tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Stilizare pentru titlurile cărților */
+
 .highlight-title {
     font-weight: bold;
     color: #3e3e3e;
     text-decoration: underline;
 }
 
-/* Mesaj pentru cazurile în care nu există cărți */
+
 main p {
     font-size: 1.2rem;
     color: #555;
@@ -111,7 +110,7 @@ main p {
     margin-top: 20px;
 }
 .borrow-btn {
-    background-color: #a9745a;       /* Maro cald, mai deschis */
+    background-color: #a9745a;
     color: white;
     padding: 10px 20px;
     font-size: 1rem;
@@ -123,9 +122,9 @@ main p {
 }
 
 .borrow-btn:hover {
-    background-color: #8b5e3c;       /* Se potrivește cu header-ul */
+    background-color: #8b5e3c;
 }
-/* Media Queries pentru dispozitive mobile */
+
 @media screen and (max-width: 768px) {
     header h1 {
         font-size: 2rem;

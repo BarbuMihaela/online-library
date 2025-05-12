@@ -1,27 +1,27 @@
-/* Fundal general cald și șters */
+
 html, body {
-    height: 100%; /* Asigură-te că ocupă toată înălțimea paginii */
-    margin: 0; /* Elimină marginile implicite */
-    padding: 0; /* Elimină padding-ul implicit */
+    height: 100%;
+    margin: 0;
+    padding: 0;
     font-family: 'Arial', sans-serif;
 }
 
 body {
-    background-image: url("../img/all7.jpg"); /* Folosește aceeași imagine de fundal */
-    background-size: cover; /* Asigură-te că imaginea acoperă întreaga zonă */
+    background-image: url("../img/all7.jpg");
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     color: #333;
     line-height: 1.6;
     padding: 20px;
-    min-height: 100%; /* Asigură că body-ul ocupă întreaga înălțime a paginii */
+    min-height: 100%;
 }
 
 
-/* Header */
+
 header {
     text-align: center;
-    background-color: #8b5e3c; /* maro cald */
+    background-color: #8b5e3c;
     padding: 10px;
     color: white;
     border-radius: 8px;
@@ -32,9 +32,9 @@ header h1 {
     font-size: 2.2em;
 }
 
-/* Buton general admin */
+
 .admin-btn {
-    background-color: #a97458; /* maro cald */
+    background-color: #a97458;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -47,15 +47,14 @@ header h1 {
 }
 
 .admin-btn:hover {
-    background-color: #704832; /* maro mai închis */
+    background-color: #704832;
     transform: scale(1.05);
 }
 
-/* Tabel pentru istoricul împrumuturilor */
 table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(255, 248, 242, 0.9); /* crem translucid */
+    background-color: rgba(255, 248, 242, 0.9);
     margin-top: 20px;
     border-radius: 8px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -68,18 +67,18 @@ th, td {
 }
 
 th {
-    background-color: #8b5e3c; /* Maro cald pentru titlurile de coloană */
+    background-color: #8b5e3c;
     color: white;
     font-weight: bold;
 }
 
 tr:hover {
-    background-color: #f1f1f1; /* Culoare de fundal la hover pe rânduri */
+    background-color: #f1f1f1;
 }
 
-/* Butonul de întoarcere la pagina utilizatorului */
+
 form button {
-    background-color: #6f4e37; /* Maro cald */
+    background-color: #6f4e37;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -90,11 +89,11 @@ form button {
 }
 
 form button:hover {
-    background-color: #4e3b2e; /* Maro mai închis */
+    background-color: #4e3b2e;
     transform: scale(1.05);
 }
 
-/* Flash messages pentru succes și eroare */
+
 ul {
     list-style-type: none;
     padding-left: 0;

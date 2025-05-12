@@ -12,36 +12,41 @@ from flask_api import app
 @app.route("/login", methods=["POST"])
 def web_login():
     """
-     Endpoint to handle user login.
-    :return:Renders the login page or redirects to the appropriate home page based on login success.
+    Endpoint to handle user login.
+    :return: Renders the login page or redirects to the appropriate home page based on login success.
     """
     try:
-        if request.method == "POST":
-            user = request.form['username']
-            passwd = request.form['password']
+        user = request.form['username']
+        passwd = request.form['password']
+        query = read_from_db("""
+            select user_id, username, full_name, password, is_admin
+            from project.users
+            where username = %s
+        """, params=(user,))
 
-            query = read_from_db(f"""
-                SELECT user_id, username, full_name, password, is_admin
-                FROM project.users
-                WHERE username = '{user}' AND password = '{passwd}'
-            """)
+        if not query:
+            flash("You don't have an account, please register.", "error")
+            return render_template("login.html")
 
-            if not query or isinstance(query[0], str):
-                flash("You don't have an account, please register.", "Error")
-            else:
-                session['user_id'] = query[0]['user_id']
-                session['username'] = user
-                session['full_name'] = query[0]['full_name']
-                session['is_admin'] = query[0]['is_admin']
-                if session['is_admin'] == "Da":
-                    return redirect(url_for("web_home"))
-                else:
-                    return redirect(url_for("web_home_users"))
+        user_data = query[0]
 
-        return render_template("login.html")
+        if passwd != user_data['password']:
+            flash("Incorrect password. Please try again.", "error")
+            return render_template("login.html")
+        session['user_id'] = user_data['user_id']
+        session['username'] = user_data['username']
+        session['full_name'] = user_data['full_name']
+        session['is_admin'] = user_data['is_admin']
+
+        if session['is_admin'].lower() == "da":
+            return redirect(url_for("web_home"))
+        else:
+            return redirect(url_for("web_home_users"))
 
     except Exception as e:
-        return f"Error: {str(e)}"
+        flash(f"An error occurred: {str(e)}", "error")
+        return render_template("login.html")
+
 
 @app.route("/logout")
 def logout():

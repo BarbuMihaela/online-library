@@ -31,7 +31,7 @@ def add_book():
         title = request.form['title']
         description = request.form['description']
         page_count = request.form['page_count']
-        author_name = str(request.form['author_id'])
+        author_name = request.form['author_id'].strip().lower()
         genre_name = request.form['genre_id']
         print(genre_name)
         if not title or not description or not page_count or not author_name or not genre_name:
@@ -40,7 +40,7 @@ def add_book():
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
-            cursor.execute(f"select * from project.authors where full_name = '{author_name}'")
+            cursor.execute("select * from project.authors where lower(full_name) = %s",(author_name,))
             query_author = cursor.fetchall()
 
             if not query_author:
@@ -49,7 +49,6 @@ def add_book():
                     (author_name,)
                 )
                 author_id = cursor.fetchone()[0]
-
                 connection.commit()
             else:
                 author_id = query_author[0][0]
@@ -62,13 +61,13 @@ def add_book():
             cursor.close()
             connection.close()
 
-            flash("Book added successfully!", "Success")
-            return redirect(url_for("web_home"))
+            flash("Book added successfully!", "book_ad")
+            return redirect(url_for("add_book"))
         except ValueError as e:
-            flash(f"Invalid data type: {e}", "error")
+            flash(f"Invalid data type: {e}", "book_ad")
             return render_template("add_book.html")
         except Exception as e:
-            flash(f"An error occurred while adding the book: {e}", "Error")
+            flash(f"An error occurred while adding the book: {e}", "book_ad")
             return render_template("add_book.html")
     elif request.method == "GET":
         query = read_from_db("select * from project.genres")

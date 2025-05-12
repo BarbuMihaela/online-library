@@ -19,7 +19,9 @@
             {% if messages %}
                 <ul>
                     {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
+                    {% if category != "book_ad" %}
+                    <li class="{{ category }}">{{ message }}</li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             {% endif %}
