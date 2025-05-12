@@ -1,29 +1,28 @@
-/* Resetare margini și padding pentru body și html */
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all7.jpg");
-    background-size: cover; /* Imaginea acoperă întregul ecran */
+    background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Imaginea rămâne fixă pe fundal */
+    background-attachment: fixed;
     background-repeat: no-repeat;
     color: #333;
     line-height: 1.6;
     padding: 0;
     margin: 0;
-    min-height: 100vh; /* Asigură că întregul ecran este acoperit */
+    min-height: 100vh;
 }
 
-/* Header-ul paginii */
 header {
-    background-color: #8b5e3c; /* Ton cald, maro */
+    background-color: #8b5e3c;
     color: white;
     padding: 20px;
     text-align: center;
-    border-radius: 15px; /* Colțuri rotunjite */
-    margin-bottom: 20px; /* Adăugăm un mic spațiu sub header */
+    border-radius: 15px;
+    margin-bottom: 20px;
 }
 
-/* Titlul principal din header */
+
 header h1 {
     font-size: 2.5rem;
     margin: 0;
@@ -31,7 +30,7 @@ header h1 {
     letter-spacing: 2px;
 }
 
-/* Butonul de întoarcere la pagina de admin */
+
 a .admin-btn {
     background-color: #6f4e37;
     color: white;
@@ -48,7 +47,7 @@ a .admin-btn:hover {
     background-color: #4e3b2e;
 }
 
-/* Containerul principal pentru administrare */
+
 .admin-info {
     margin-top: 30px;
     text-align: center;
@@ -58,9 +57,9 @@ a .admin-btn:hover {
     width: 100%;
 }
 
-/* Mesajele flash */
+
 .flash-messages {
-    background-color: #ede0de; /* roz deschis */
+    background-color: #ede0de;
     color: #b30000;
     padding: 15px;
     margin-top: 20px;
@@ -69,37 +68,35 @@ a .admin-btn:hover {
     text-align: center;
 }
 
-/* Lista de membri */
+
 .members-list {
     margin-top: 30px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Două coloane */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    justify-items: center; /* Aliniază elementele pe mijloc */
+    justify-items: center;
     padding: 0 20px;
-    max-width: 90%; /* Asigură că lista nu iese din cadrul ecranului */
+    max-width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Elementul pentru fiecare membru */
 .member-item {
     background-color: #fff8f2;
     padding: 15px;
-    width: 250px; /* Carduri mai înguste */
+    width: 250px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-/* Informațiile despre membru */
+
 .member-info p {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 10px;
 }
 
-/* Butonul de eliminare */
 .remove-btn {
     background-color: #d9534f;
     color: white;
@@ -116,34 +113,38 @@ a .admin-btn:hover {
     background-color: #c9302c;
 }
 
-/* Mesaj de eroare în cazul unei acțiuni nereușite */
-#error_msg {
+.error_msg {
     color: black;
     font-size: 1.2rem;
     margin-top: 20px;
     display: block;
 }
 
-/* În cazul în care nu sunt membri de eliminat */
 .no-members {
-    font-size: 1.2rem;
-    color: #555;
-    margin-top: 30px;
+    background-color: #ede0de;
+    color: #b30000;
+    border: 1px solid #ff4d4d;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
     text-align: center;
+    display: inline-block;
+    max-width: 90%;
 }
 
-/* Efect de hover pe fiecare item de membru */
+
 .member-item:hover {
     background-color: #f9f9f9;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Efect pentru butonul de eliminare */
+
 .remove-btn:active {
     transform: scale(0.98);
 }
 
-/* Mesaje de succes și eroare */
 .message-box {
     padding: 10px;
     margin-bottom: 15px;
@@ -152,41 +153,49 @@ a .admin-btn:hover {
 }
 
 .success-msg {
-    background-color: #ede0de; /* roz deschis */
-    color: #b30000;
+    background-color: #d4edda;
+    color: #155724;
     border: 1px solid #c3e6cb;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: inline-block;
+    max-width: 90%;
 }
 
 .error-msg {
-    background-color: #ede0de; /* roz deschis */
+    background-color: #ede0de;
     color: #b30000;
     border: 1px solid #f5c6cb;
 }
 
-/* Plasarea mesajelor la baza paginii */
+
 .flash-messages-container {
     position: fixed;
-    bottom: 20px; /* Mesajele vor apărea în partea de jos a ecranului */
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 500px; /* Lățimea maximă a mesajului */
+    max-width: 500px;
     padding: 10px;
     border-radius: 6px;
     text-align: center;
 }
 
-/* Media query pentru dispozitive mai mici */
+
 @media (max-width: 768px) {
     .members-list {
-        grid-template-columns: 1fr; /* O coloană pe ecrane mici */
+        grid-template-columns: 1fr;
     }
 
     .message-box {
-        font-size: 1rem; /* Micșorăm dimensiunea fontului pe ecrane mici */
+        font-size: 1rem;
     }
 
     .flash-messages-container {
-        width: 95%; /* Lățime mai mare pentru dispozitivele mici */
+        width: 95%;
     }
 }

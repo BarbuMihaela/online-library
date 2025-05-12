@@ -1,65 +1,64 @@
-/* Resetare margini și padding pentru body și html */
+
 body, html {
     height: 100%;
     margin: 0;
     font-family: 'Georgia', serif;
-    background-color: #f4f4f4; /* Fundal deschis, neutru */
-    background-image: url("../img/login.jpg"); /* Calea către imaginea dorită */
-    background-size: cover; /* Asigură că imaginea acoperă întreaga fereastră */
-    background-position: center center; /* Centrarea imaginii */
-    background-attachment: fixed; /* Fixează imaginea pe fundal */
+    background-color: #f4f4f4;
+    background-image: url("../img/login.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
-/* Containerul pentru pagina de înregistrare */
+
 .container {
-    background-color: rgba(255, 255, 255, 0.85); /* Fundal alb translucid pentru contrast */
+    background-color: rgba(255, 255, 255, 0.85);
     padding: 40px;
     border-radius: 12px;
     text-align: center;
     max-width: 600px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Umbră subtilă pentru a ieși în evidență */
-    margin: 100px auto; /* Centrăm containerul pe pagină */
-    border: 2px solid #6f4e37; /* Adăugăm o margine maro închis */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin: 100px auto;
+    border: 2px solid #6f4e37;
 }
 
-/* Titlul principal */
 .container h1 {
     font-size: 2.5rem;
     color: #3e3e3e;
     margin-bottom: 20px;
     font-weight: bold;
     letter-spacing: 2px;
-    color: #6f4e37; /* Maro închis pentru titlu */
+    color: #6f4e37;
 }
 
-/* Formularele de înregistrare */
+
 form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Etichetele din formular */
+
 form label {
     font-size: 1.1rem;
-    color: #6f4e37; /* Maro închis pentru etichete */
+    color: #6f4e37;
     text-align: left;
     margin-bottom: 5px;
 }
 
-/* Inputurile pentru utilizator */
+
 input[type="text"], input[type="password"] {
     padding: 12px;
     font-size: 1.1rem;
-    border: 1px solid #6f4e37; /* Margine maro închis pentru inputuri */
+    border: 1px solid #6f4e37;
     border-radius: 6px;
     background-color: #f9f9f9;
-    color: #6f4e37; /* Text maro închis în inputuri */
+    color: #6f4e37;
 }
 
-/* Butonul de înregistrare cu efect de hover */
+
 button[type="submit"] {
-    background-color: #8b5e3c; /* Ton cald, maro */
+    background-color: #8b5e3c;
     color: white;
     padding: 14px 28px;
     font-size: 1.2rem;
@@ -68,38 +67,37 @@ button[type="submit"] {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-weight: bold;
-    border: 2px solid #6f4e37; /* Margine maro închis pentru buton */
+    border: 2px solid #6f4e37;
 }
 
 button[type="submit"]:hover {
     background-color: #6f4e37;
 }
 
-/* Link-ul pentru autentificare */
+
 .login-link {
     margin-top: 20px;
     font-size: 1rem;
-    color: #6f4e37; /* Maro închis pentru link */
+    color: #6f4e37;
 }
 
 .login-link a {
-    color: #6f4e37; /* Maro închis pentru link */
+    color: #6f4e37;
     text-decoration: none;
     font-weight: bold;
 }
 
 .login-link a:hover {
-    color: #8b5e3c; /* Maro mai deschis pentru hover */
+    color: #8b5e3c;
 }
 
-/* Mesajul de eroare */
+
 p[style="color:red;"] {
     color: red;
     font-size: 1rem;
     margin-top: 10px;
 }
 
-/* Animație pentru butonul de înregistrare */
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
@@ -113,7 +111,6 @@ button[type="submit"].pulse {
     animation: pulse 2.5s infinite;
 }
 
-/* Responsivitate */
 @media (max-width: 768px) {
     .container {
         padding: 20px;

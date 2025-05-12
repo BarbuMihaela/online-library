@@ -1,11 +1,11 @@
-/* Resetare generală pentru a elimina marginile și padding-ul implicit */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body */
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/menu.jpg");
@@ -17,25 +17,24 @@ body {
     padding: 20px;
 }
 
-/* Header */
+
 #admin-header {
     text-align: center;
-    background-color: #8b5e3c; /* Verde cald pentru header */
+    background-color: #8b5e3c;
     padding: 20px;
     color: white;
     border-radius: 8px;
     margin-bottom: 30px;
 }
 
-/* Titlu header */
 #admin-header h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
 }
 
-/* Buton de log out */
+
 #logout-btn {
-    background-color: #6f4e37; /* Maro pentru log out */
+    background-color: #6f4e37;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -48,11 +47,11 @@ body {
 }
 
 #logout-btn:hover {
-    background-color: #4e3b2e; /* Maro închis la hover */
+    background-color: #4e3b2e;
     transform: scale(1.05);
 }
 
-/* Info administrator */
+
 #admin-info {
     text-align: center;
     margin-top: 20px;
@@ -63,7 +62,7 @@ body {
     color: #555;
 }
 
-/* Toolbar pentru butoane */
+
 #admin-toolbar {
     display: flex;
     flex-wrap: wrap;
@@ -72,9 +71,9 @@ body {
     margin-top: 30px;
 }
 
-/* Stil pentru butoanele admin */
+
 .admin-btn {
-    background-color: #48C9B0; /* Albastru-verde pentru butoane */
+    background-color: #48C9B0;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -88,25 +87,25 @@ body {
 }
 
 .admin-btn:hover {
-    background-color: #1F618D; /* Albastru închis la hover */
+    background-color: #1F618D;
     transform: scale(1.05);
 }
 
-/* Stil pentru containerul butoanelor */
+
 .button-container {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
 }
 
-/* Stil pentru butoanele de pe toolbar */
+
 #add-book-btn,
 #view-books-btn,
 #remove-book-btn,
 #remove-member-btn,
 #add-member-btn,
 #pending-borrowings-btn {
-    background-color: #8b5e3c; /* Ton maro deschis pentru butoane */
+    background-color: #8b5e3c;
     color: white;
     padding: 12px 20px;
     font-size: 1rem;

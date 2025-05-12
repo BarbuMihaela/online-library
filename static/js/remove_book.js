@@ -8,10 +8,8 @@ function removeBook(bookId) {
     })
     .then(response => {
         if (response.redirected) {
-            // Serverul a trimis un redirect (de la redirect(url_for(...)))
             window.location.href = response.url;
         } else {
-            // fallback: dă refresh manual
             location.reload();
         }
     })

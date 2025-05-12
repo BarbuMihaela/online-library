@@ -1,4 +1,4 @@
-/* Resetare margini și padding pentru body și html */
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all5.jpg");
@@ -9,13 +9,13 @@ body {
     line-height: 1.6;
     padding: 20px;
 }
-/* Header-ul paginii */
+
 header {
-    background-color: #8b5e3c; /* Ton cald, maro */
+    background-color: #8b5e3c;
     color: white;
     padding: 20px;
     text-align: center;
-    border-radius: 10px; /* Colțuri rotunjite */
+    border-radius: 10px;
 }
 
 header h1 {
@@ -26,7 +26,7 @@ header h1 {
 }
 
 
-/* Butonul de întoarcere la pagina utilizatorului */
+
 a .btn {
     background-color: #6f4e37;
     color: white;
@@ -43,19 +43,16 @@ a .btn:hover {
     background-color: #4e3b2e;
 }
 
-/* Containerele de cărți în așteptare */
 .pending-books-container {
     margin-top: 30px;
     text-align: center;
 }
 
-/* Mesajul în cazul în care nu sunt cărți de returnat */
 .pending-books-container p {
     font-size: 1.2rem;
     color: #555;
 }
 
-/* Tabelul cu cărțile împrumutate */
 .books-table {
     width: 80%;
     margin: 20px auto;
@@ -80,18 +77,16 @@ a .btn:hover {
     font-size: 1.1rem;
 }
 
-/* Adăugarea unui efect de hover pe rândurile din tabel */
+
 .books-table tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Formatare pentru fiecare coloană */
 .books-table td {
     font-size: 1rem;
     color: #333;
 }
 
-/* Stiluri pentru tabelul de cărți împrumutate */
 .books-table {
     width: 90%;
     margin-top: 20px;
@@ -106,14 +101,14 @@ a .btn:hover {
 }
 
 .books-table th {
-    background-color: #8b5e3c; /* Maro pentru capul de tabel */
+    background-color: #8b5e3c;
     color: white;
 }
 
 .books-table tr:nth-child(even) {
-    background-color: #f9f9f9; /* Fundal gri deschis pentru rândurile pare */
+    background-color: #f9f9f9;
 }
 
 .books-table tr:hover {
-    background-color: #f1f1f1; /* Culoare de hover pentru rândurile din tabel */
+    background-color: #f1f1f1;
 }

@@ -1,4 +1,4 @@
-/* Body */
+
 body {
     font-family: 'Arial', sans-serif;
     background-image: url("../img/all5.jpg");
@@ -9,47 +9,45 @@ body {
     line-height: 1.6;
     padding: 20px;
 
-/* Header */
 header {
-    background-color: #8b5e3c; /* Maro cald pentru header */
+    background-color: #8b5e3c;
     padding: 20px;
     text-align: center;
     color: white;
-    border-bottom: 3px solid #6f4e37; /* Adăugat o margine subtile */
-    border-radius: 10px; /* Colțuri rotunjite */
+    border-bottom: 3px solid #6f4e37;
+    border-radius: 10px;
 }
-/* Butonul Admin */
+
 .admin-btn {
-    background-color: #6f4e37; /* Culoare maro caldă pentru buton */
+    background-color: #6f4e37;
     color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
     margin-top: 10px;
-    border-radius: 6px; /* Colțuri rotunjite */
+    border-radius: 6px;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .admin-btn:hover {
-    background-color: #4e3b2e; /* Culoare mai închisă la hover */
-    transform: scale(1.05); /* Efect de mărire la hover */
+    background-color: #4e3b2e;
+    transform: scale(1.05);
 }
 
-/* Secțiunea principală (main) */
+
 main {
     padding: 30px;
     text-align: center;
 }
 
-/* Tabelul de împrumuturi */
 .borrowings-table {
     width: 80%;
     margin: 20px auto;
     border-collapse: collapse;
-    background-color: #eafff5; /* Fundal deschis pentru tabel */
-    border-radius: 8px; /* Colțuri rotunjite */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Umbră subtile pentru tabel */
+    background-color: #eafff5;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .borrowings-table th,
@@ -57,28 +55,27 @@ main {
     border: 1px solid #ccc;
     padding: 12px;
     font-size: 1em;
-    text-align: center; /* Centrat textul în tabel */
+    text-align: center;
 }
 .borrowings-table th {
-    background-color: #8b5e3c; /* Maro cald pentru antetul tabelului */
+    background-color: #8b5e3c;
     color: white;
 }
 
 .borrowings-table tr:nth-child(even) {
-    background-color: #f3e5d8; /* Bej deschis pentru rândurile pare */
+    background-color: #f3e5d8;
 }
 
 .borrowings-table tr:nth-child(odd) {
-    background-color: #fef9f4; /* Bej foarte deschis pentru rândurile impare */
+    background-color: #fef9f4;
 }
 
 .borrowings-table td {
     font-size: 1rem;
-    color: #3e2c1e; /* Maro închis pentru text */
+    color: #3e2c1e;
 
-/* Stil pentru mesaje de succes și eroare (pentru alertă) */
 .flash-message {
-    background-color: #28a745; /* Verde pentru succes */
+    background-color: #28a745;
     color: white;
     padding: 15px;
     margin-top: 20px;
@@ -88,5 +85,5 @@ main {
 }
 
 .flash-message.error {
-    background-color: #dc3545; /* Roșu pentru erori */
+    background-color: #dc3545;
 }
