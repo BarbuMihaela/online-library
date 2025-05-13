@@ -1,5 +1,4 @@
 from dbm import error
-
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
 from flask_smorest import abort
 from config import read_from_db, database_config, write_to_db

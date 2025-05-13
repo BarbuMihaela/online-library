@@ -8,17 +8,6 @@ from datetime import datetime, timedelta
 from flask_api import app
 
 
-@app.route("/books")
-def get_all_books():
-    return {"books": list(read_from_db("select * from project.books").values())}
-
-@app.route("/books/<string:book_id>")
-def get_book_by_id(book_id):
-    try:
-        return read_from_db(f"select * from project.books where book_id = {int(book_id)}")
-    except KeyError:
-        return {"message": "Bad request, Book Not found"}
-
 
 @app.route("/add_book", methods=["GET", "POST"])
 def add_book():
@@ -28,14 +17,13 @@ def add_book():
              or redirects to the home page after a successful addition.
     """
     if request.method == "POST":
-        title = request.form['title']
+        title = request.form['title'].strip().title()
         description = request.form['description']
         page_count = request.form['page_count']
         author_name = request.form['author_id'].strip().lower()
         genre_name = request.form['genre_id']
-        print(genre_name)
-        if not title or not description or not page_count or not author_name or not genre_name:
-            flash("Please fill in all fields.", "error")
+        if author_name.isdigit():
+            flash("Author name cannot contain only digits.", "error")
             return render_template("add_book.html")
         try:
             connection = psycopg2.connect(**database_config)
@@ -85,6 +73,7 @@ def view_books():
             of available books and the selected page count filter.
     """
     selected_pages = request.args.get("page_count")
+    selected_genre = request.args.get("genre_id")
     query = """
         SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
         FROM project.books b
@@ -106,8 +95,14 @@ def view_books():
         elif selected_pages == 5:
             query += " and b.page_count >= 500"
 
+    if selected_genre and selected_genre.isdigit():
+        query += f" and g.genre_id = {int(selected_genre)}"
+    genres_query = read_from_db("select genre_id, genre_name from project.genres")
+    genres = [(g["genre_name"], g["genre_id"]) for g in genres_query]
+
     books = read_from_db(query)
-    return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
+    return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "",
+                           selected_genre=str(selected_genre) if selected_genre else "")
 
 
 @app.route("/user_view_books")
