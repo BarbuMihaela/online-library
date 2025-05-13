@@ -8,17 +8,6 @@ from datetime import datetime, timedelta
 from flask_api import app
 
 
-@app.route("/books")
-def get_all_books():
-    return {"books": list(read_from_db("select * from project.books").values())}
-
-@app.route("/books/<string:book_id>")
-def get_book_by_id(book_id):
-    try:
-        return read_from_db(f"select * from project.books where book_id = {int(book_id)}")
-    except KeyError:
-        return {"message": "Bad request, Book Not found"}
-
 
 @app.route("/add_book", methods=["GET", "POST"])
 def add_book():
@@ -28,15 +17,12 @@ def add_book():
              or redirects to the home page after a successful addition.
     """
     if request.method == "POST":
-        title = request.form['title']
+        title = request.form['title'].strip().title()
         description = request.form['description']
         page_count = request.form['page_count']
         author_name = request.form['author_id'].strip().lower()
         genre_name = request.form['genre_id']
-        print(genre_name)
-        if not title or not description or not page_count or not author_name or not genre_name:
-            flash("Please fill in all fields.", "error")
-            return render_template("add_book.html")
+
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
@@ -46,7 +32,7 @@ def add_book():
             if not query_author:
                 cursor.execute(
                     "insert into  project.authors (full_name) VALUES (%s) RETURNING author_id",
-                    (author_name,)
+                    (author_name.title(),)
                 )
                 author_id = cursor.fetchone()[0]
                 connection.commit()
@@ -85,6 +71,7 @@ def view_books():
             of available books and the selected page count filter.
     """
     selected_pages = request.args.get("page_count")
+    selected_genre = request.args.get("genre_id")
     query = """
         SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
         FROM project.books b
@@ -105,66 +92,53 @@ def view_books():
             query += " and b.page_count >= 400 AND b.page_count < 500"
         elif selected_pages == 5:
             query += " and b.page_count >= 500"
-
+    if selected_genre:
+        query += f"and g.genre_id = {int(selected_genre)}"
     books = read_from_db(query)
-    return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
+    if not books:
+        flash("Book don t exist", "error_genre")
+        books = read_from_db("""SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
+                            FROM project.books b
+                            JOIN project.authors a ON b.author_id = a.author_id
+                            JOIN project.genres g ON b.genre_id = g.genre_id
+                            where b.book_id not in (select book_id from project.loans where status_return = False)""")
+        genres = read_from_db("select * from project.genres")
+        list_genres = [(gen["genre_name"], gen["genre_id"]) for gen in genres]
+        return render_template("view_books.html", books=books, genres=list_genres,
+                               selected_page=str(selected_pages) if selected_pages else "")
 
 
-@app.route("/user_view_books")
-def user_view_books():
-    """
-    Endpoint to display a list of books that are available for borrowing.
-    :return: Renders the 'view_books.html' template with a list
-            of available books and the selected page count filter.
-    """
-    selected_pages = request.args.get("page_count")
-    query = """
-        select b.title,b.book_id, b.description, b.page_count, a.full_name as author, g.genre_name as genre
-        from project.books b
-        join project.authors a on b.author_id = a.author_id
-        join project.genres g on b.genre_id = g.genre_id
-        where b.book_id not in (select book_id from project.loans where status_return = False)     
-    """
+    genres = read_from_db("select * from project.genres")
+    list_genres = [(gen["genre_name"], gen["genre_id"]) for gen in genres]
+    return render_template("view_books.html", books=books, genres=list_genres,
+                           selected_page=str(selected_pages) if selected_pages else "")
 
-    if selected_pages and selected_pages.isdigit():
-        selected_pages = int(selected_pages)
-        if selected_pages == 1:
-            query += " and b.page_count < 200"
-        elif selected_pages == 2:
-            query += " and b.page_count >= 200 AND b.page_count < 300"
-        elif selected_pages == 3:
-            query += " and b.page_count >= 300 AND b.page_count < 400"
-        elif selected_pages == 4:
-            query += " and b.page_count >= 400 AND b.page_count < 500"
-        elif selected_pages == 5:
-            query += " and b.page_count >= 500"
 
-    books = read_from_db(query)
-    return render_template("user_view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
 
 
 @app.route("/remove_book", methods=["POST"])
 def remove_book():
     """
     Endpoint to remove a book from the system.
-    :return: Redirects to the 'view_books' page, where the list of books is displayed.
+    :return: A JSON response with success message or error.
     """
     data = request.get_json()
     book_id_to_remove = data.get("book_id")
-    print(book_id_to_remove)
+
     if book_id_to_remove:
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
             cursor.execute("delete from project.books where book_id = %s", (book_id_to_remove,))
             connection.commit()
-            flash("Book removed successfully!", "success")
+            return jsonify({"success": True, "message": "Book removed successfully!"})
         except Exception as e:
-            flash(f"Error: {str(e)}", "error")
+            return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
         finally:
             cursor.close()
             connection.close()
-    return redirect(url_for("view_books"))
+    else:
+        return jsonify({"success": False, "message": "Invalid book ID"}), 400
 
 
 @app.route("/borrow_book", methods=["POST"])

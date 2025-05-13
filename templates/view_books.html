@@ -12,7 +12,18 @@
             <button class="admin-btn">Back to Admin Page</button>
         </a>
     </header>
-
+    <div class="admin-info">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == "error_genre" %}
+                    <p class="{{ category }}">{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div id="error_msg" class="message-box"></div>
+         </div>
     <main>
         {% if books %}
             <table class="books-table">
@@ -35,7 +46,18 @@
                             </form>
                         </th>
                         <th>Author</th>
-                        <th>Genre</th>
+                        <th>Genre
+                        <form action="{{url_for('view_books') }}" method="GET">
+                            <label for="genre_id">Genre</label>
+                        <select name="genre_id" id="genre_id" onchange="this.form.submit()">
+                            <option value="" disabled selected>Filter by genres</option>
+                        {% for gen, id in genres %}
+                        <option value="{{ id }}">{{ gen }}</option>
+                        {% endfor %}
+                        </select>
+                        </form>
+                        </th>
+
                         <th>Action</th>
                     </tr>
                 </thead>

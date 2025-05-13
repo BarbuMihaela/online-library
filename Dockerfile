@@ -1,5 +1,5 @@
 FROM python:3.10
-EXPOSE 5010
+EXPOSE 5011
 WORKDIR /login
 COPY requirements.txt .
 RUN pip install -r requirements.txt

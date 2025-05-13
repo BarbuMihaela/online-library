@@ -1,14 +1,16 @@
 
 from flask import Flask, render_template, request, url_for, session, jsonify, redirect, flash
-from flask_smorest import abort
 from config import read_from_db, database_config
-from flask_restful import abort
 import psycopg2
 from datetime import datetime, timedelta
 from flask_api import app
 
 @app.route("/home")
 def web_home():
+    """
+    This function handles the route /home of the application and renders the admin's main page.
+    :return:
+    """
     return render_template("admin_page.html")
 
 
@@ -39,7 +41,6 @@ def remove_member():
                     """, (remove_member_id,))
                 loaned_books = cursor.fetchall()
                 if loaned_books:
-                    book_title = loaned_books[0][0]
                     message = "The member cannot be removed because they have active loans and must return the borrowed books first."
                     return jsonify({"success": False, "message": message}), 400
 
@@ -68,7 +69,7 @@ def add_member():
         full_name = " ".join(request.form['full_name'].split()).title()
         username = request.form['username']
         password = request.form['password']
-        confirm_password = request.form.get('confirm_password')  # nou
+        confirm_password = request.form.get('confirm_password')
         is_admin = request.form['is_admin']
 
 

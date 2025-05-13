@@ -23,9 +23,16 @@ CREATE TABLE history (
     FOREIGN KEY (loan_id) REFERENCES project.loans(loan_id) ON DELETE CASCADE
 );
 
-ALTER TABLE project.loans
-ADD COLUMN extend INT;
+ALTER TABLE project.users
+ADD COLUMN borrowed_books_count INTEGER DEFAULT 0;
 
+ALTER TABLE project.loans
+ADD COLUMN status_return BOOLEAN default FALSE
+;
+
+ALTER TABLE project.loans
+DROP column status
+;
 
 
 
