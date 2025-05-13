@@ -22,9 +22,7 @@ def add_book():
         page_count = request.form['page_count']
         author_name = request.form['author_id'].strip().lower()
         genre_name = request.form['genre_id']
-        if author_name.isdigit():
-            flash("Author name cannot contain only digits.", "error")
-            return render_template("add_book.html")
+
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
@@ -94,45 +92,28 @@ def view_books():
             query += " and b.page_count >= 400 AND b.page_count < 500"
         elif selected_pages == 5:
             query += " and b.page_count >= 500"
-
+    if selected_genre:
+        query += f"and g.genre_id = {int(selected_genre)}"
     books = read_from_db(query)
+    if not books:
+        flash("Book don t exist", "error_genre")
+        books = read_from_db("""SELECT b.title, b.book_id, b.description, b.page_count, a.full_name AS author, g.genre_name AS genre
+                            FROM project.books b
+                            JOIN project.authors a ON b.author_id = a.author_id
+                            JOIN project.genres g ON b.genre_id = g.genre_id
+                            where b.book_id not in (select book_id from project.loans where status_return = False)""")
+        genres = read_from_db("select * from project.genres")
+        list_genres = [(gen["genre_name"], gen["genre_id"]) for gen in genres]
+        return render_template("view_books.html", books=books, genres=list_genres,
+                               selected_page=str(selected_pages) if selected_pages else "")
+
+
     genres = read_from_db("select * from project.genres")
     list_genres = [(gen["genre_name"], gen["genre_id"]) for gen in genres]
     return render_template("view_books.html", books=books, genres=list_genres,
                            selected_page=str(selected_pages) if selected_pages else "")
 
 
-@app.route("/user_view_books")
-def user_view_books():
-    """
-    Endpoint to display a list of books that are available for borrowing.
-    :return: Renders the 'view_books.html' template with a list
-            of available books and the selected page count filter.
-    """
-    selected_pages = request.args.get("page_count")
-    query = """
-        select b.title,b.book_id, b.description, b.page_count, a.full_name as author, g.genre_name as genre
-        from project.books b
-        join project.authors a on b.author_id = a.author_id
-        join project.genres g on b.genre_id = g.genre_id
-        where b.book_id not in (select book_id from project.loans where status_return = False)     
-    """
-
-    if selected_pages and selected_pages.isdigit():
-        selected_pages = int(selected_pages)
-        if selected_pages == 1:
-            query += " and b.page_count < 200"
-        elif selected_pages == 2:
-            query += " and b.page_count >= 200 AND b.page_count < 300"
-        elif selected_pages == 3:
-            query += " and b.page_count >= 300 AND b.page_count < 400"
-        elif selected_pages == 4:
-            query += " and b.page_count >= 400 AND b.page_count < 500"
-        elif selected_pages == 5:
-            query += " and b.page_count >= 500"
-
-    books = read_from_db(query)
-    return render_template("user_view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "")
 
 
 @app.route("/remove_book", methods=["POST"])
