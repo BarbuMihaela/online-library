@@ -24,7 +24,7 @@ function borrowBook(bookId) {
 
             setTimeout(() => {
                 window.location.href = "/user_view_books";
-            }, 1500);
+            }, 800);
         } else {
             alert(data.message || "Error borrowing this book.");
         }

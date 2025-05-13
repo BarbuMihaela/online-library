@@ -3,17 +3,34 @@ function removeBook(bookId) {
 
     fetch('/remove_book', {
         method: 'POST',
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify({ book_id: bookId })
     })
     .then(response => {
-        if (response.redirected) {
-            window.location.href = response.url;
+        const contentType = response.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+            throw new Error("Server did not return JSON");
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            const bookRow = document.getElementById(`book-${bookId}`);
+            if (bookRow) {
+                bookRow.remove();
+            }
+
+            setTimeout(() => {
+                window.location.href = "/view_books";
+            }, 800);
         } else {
-            location.reload();
+            alert(data.message || "Error removing this book.");
         }
     })
     .catch(error => {
-        alert("Error removing book: " + error.message);
+        alert("Network error: " + error.message);
     });
 }

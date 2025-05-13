@@ -34,7 +34,7 @@ def add_book():
             if not query_author:
                 cursor.execute(
                     "insert into  project.authors (full_name) VALUES (%s) RETURNING author_id",
-                    (author_name,)
+                    (author_name.title(),)
                 )
                 author_id = cursor.fetchone()[0]
                 connection.commit()
@@ -95,14 +95,11 @@ def view_books():
         elif selected_pages == 5:
             query += " and b.page_count >= 500"
 
-    if selected_genre and selected_genre.isdigit():
-        query += f" and g.genre_id = {int(selected_genre)}"
-    genres_query = read_from_db("select genre_id, genre_name from project.genres")
-    genres = [(g["genre_name"], g["genre_id"]) for g in genres_query]
-
     books = read_from_db(query)
-    return render_template("view_books.html", books=books, selected_page=str(selected_pages) if selected_pages else "",
-                           selected_genre=str(selected_genre) if selected_genre else "")
+    genres = read_from_db("select * from project.genres")
+    list_genres = [(gen["genre_name"], gen["genre_id"]) for gen in genres]
+    return render_template("view_books.html", books=books, genres=list_genres,
+                           selected_page=str(selected_pages) if selected_pages else "")
 
 
 @app.route("/user_view_books")
@@ -142,24 +139,25 @@ def user_view_books():
 def remove_book():
     """
     Endpoint to remove a book from the system.
-    :return: Redirects to the 'view_books' page, where the list of books is displayed.
+    :return: A JSON response with success message or error.
     """
     data = request.get_json()
     book_id_to_remove = data.get("book_id")
-    print(book_id_to_remove)
+
     if book_id_to_remove:
         try:
             connection = psycopg2.connect(**database_config)
             cursor = connection.cursor()
             cursor.execute("delete from project.books where book_id = %s", (book_id_to_remove,))
             connection.commit()
-            flash("Book removed successfully!", "success")
+            return jsonify({"success": True, "message": "Book removed successfully!"})
         except Exception as e:
-            flash(f"Error: {str(e)}", "error")
+            return jsonify({"success": False, "message": f"Error: {str(e)}"}), 500
         finally:
             cursor.close()
             connection.close()
-    return redirect(url_for("view_books"))
+    else:
+        return jsonify({"success": False, "message": "Invalid book ID"}), 400
 
 
 @app.route("/borrow_book", methods=["POST"])

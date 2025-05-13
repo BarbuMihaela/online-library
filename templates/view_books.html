@@ -35,7 +35,17 @@
                             </form>
                         </th>
                         <th>Author</th>
-                        <th>Genre</th>
+                        <th>Genre
+                        <form action="{{url_for('view_books') }}" method="GET">
+                            <label for="genre_id">Genre</label>
+                        <select name="genre_id" id="genre_id">
+                        {% for gen, id in genres %}
+                        <option value="{{ id }}">{{ gen }}</option>
+                        {% endfor %}
+                        </select>
+                        </form>
+                        </th>
+
                         <th>Action</th>
                     </tr>
                 </thead>

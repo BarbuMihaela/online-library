@@ -13,6 +13,15 @@
             <button class="admin-btn">Back to Admin Page</button>
         </a>
     </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
     <div class="form-container">
         <form action="/add_book" method="POST">
@@ -40,16 +49,5 @@
         </form>
     </div>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-            {% for category, message in messages %}
-                {% if category == "book_ad" %}
-                <li class="{{ category }}">{{ message }}</li>
-                {% endif %}
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
 </body>
 </html>
